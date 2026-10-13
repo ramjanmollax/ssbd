@@ -1,0 +1,91 @@
+{
+  "entities": {
+    "products": {
+      "title": "Products",
+      "description": "Store products for SeedHaven",
+      "properties": {
+        "name": { "type": "string" },
+        "category": { "type": "string" },
+        "price": { "type": "number" },
+        "originalPrice": { "type": "number" },
+        "cashback": { "type": "number" },
+        "stock": { "type": "number" },
+        "rating": { "type": "number" },
+        "reviewsCount": { "type": "number" },
+        "image": { "type": "string" },
+        "images": { "type": "array", "items": { "type": "string" } },
+        "description": { "type": "string" },
+        "germinationDays": { "type": "string" },
+        "season": { "type": "string" },
+        "packSize": { "type": "string" },
+        "isPopular": { "type": "boolean" },
+        "isNew": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["name", "price", "image", "category"]
+    },
+    "orders": {
+      "title": "Orders",
+      "description": "Customer Orders",
+      "properties": {
+        "customerName": { "type": "string" },
+        "phone": { "type": "string" },
+        "address": { "type": "string" },
+        "totalAmount": { "type": "number" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["customerName", "phone", "address"]
+    },
+    "newsletterSubscriptions": {
+      "title": "Newsletter Subscriptions",
+      "description": "Subscriber email addresses",
+      "properties": {
+        "email": { "type": "string", "format": "email" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["email"]
+    },
+    "productRatings": {
+      "title": "Product Ratings",
+      "description": "User ratings for products",
+      "properties": {
+        "productId": { "type": "string" },
+        "rating": { "type": "number" },
+        "userId": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["productId", "rating"]
+    },
+    "banners": {
+      "title": "Banners",
+      "description": "Hero and promotional slider banners",
+      "properties": {
+        "title": { "type": "string" },
+        "subtitle": { "type": "string" },
+        "image": { "type": "string" },
+        "mobileImage": { "type": "string" },
+        "buttonText": { "type": "string" },
+        "buttonLink": { "type": "string" },
+        "position": { "type": "number" },
+        "active": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["image"]
+    }
+  },
+  "firestore": {
+    "newsletterSubscriptions": {
+      "schema": { "$ref": "#/entities/newsletterSubscriptions" },
+      "description": "Newsletter subscriber emails collection"
+    },
+    "productRatings": {
+      "schema": { "$ref": "#/entities/productRatings" },
+      "description": "Product ratings collection"
+    },
+    "banners": {
+      "schema": { "$ref": "#/entities/banners" },
+      "description": "Homepage banners and sliders collection"
+    }
+  }
+}

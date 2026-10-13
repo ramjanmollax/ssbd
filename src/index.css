@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --brand-dark: #07381e;
+    --brand-primary: #126436;
+    --brand-accent: #16a34a;
+    --brand-soft: #f0f7f2;
+    --text-primary: #0f2918;
+    --text-muted: #5e6d63;
+    --border-light: #e2ece5;
+    --shadow-soft: 0 10px 30px -5px rgba(18, 100, 54, 0.08);
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', 'Hind Siliguri', 'Noto Sans Bengali', system-ui, -apple-system, sans-serif;
+    color: var(--text-primary);
+    background-color: #f8faf7;
+    overflow-x: hidden;
+    font-variant-numeric: tabular-nums;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* Custom Hide Scrollbar Utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-left {
+  animation: slideInLeft 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes confettiFall {
+  0% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(600px) rotate(720deg) scale(0.6);
+    opacity: 0;
+  }
+}
+
+.animate-confetti-fall {
+  animation: confettiFall linear forwards;
+}
+

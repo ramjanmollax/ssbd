@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://seedbd.vercel.app/sitemap.xml
+Sitemap: https://ssseedshop.com/sitemap.xml
+

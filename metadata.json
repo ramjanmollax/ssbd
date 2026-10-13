@@ -1,0 +1,6 @@
+{
+  "name": "Ss Seed Shop",
+  "description": "বাংলাদেশের মানসম্মত ফল, সবজি, ফুল ও মৌসুমি বীজের অন্যতম নির্ভরযোগ্য অনলাইন শপ।",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

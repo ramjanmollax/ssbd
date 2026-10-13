@@ -1,0 +1,66 @@
+{
+  "products": [],
+  "categories": [
+    {
+      "id": "fruit",
+      "count": 8,
+      "itemCount": 2,
+      "icon": "🍉",
+      "active": true,
+      "iconEmoji": "🍉",
+      "name": "ফলের বীজ",
+      "slug": "fruit",
+      "subtitle": "মিষ্টি ফলের উন্নত বীজ"
+    },
+    {
+      "id": "ful",
+      "icon": "🌸",
+      "count": 15,
+      "slug": "ful",
+      "name": "ফুলের বীজ"
+    },
+    {
+      "id": "o1svDoxmpI7boyZrI5Gx",
+      "image": "",
+      "createdAt": {
+        "seconds": 1791816171,
+        "nanoseconds": 337000000
+      },
+      "updatedAt": {
+        "seconds": 1791816171,
+        "nanoseconds": 337000000
+      },
+      "name": "ফল + সবজি",
+      "slug": "",
+      "active": true
+    },
+    {
+      "id": "other",
+      "count": 5,
+      "slug": "other",
+      "name": "বাগান সামগ্রী",
+      "icon": "🪴"
+    },
+    {
+      "id": "tool",
+      "active": true,
+      "subtitle": "টব ও চাষের প্রয়োজনীয় সামগ্রী",
+      "name": "বাগান সামগ্রী",
+      "iconEmoji": "🛠️",
+      "itemCount": 1
+    },
+    {
+      "id": "veg",
+      "subtitle": "টাটকা সবজির সেরা বীজ",
+      "iconEmoji": "🥦",
+      "name": "সবজি বীজ",
+      "active": true,
+      "slug": "veg",
+      "count": 35,
+      "itemCount": 6,
+      "icon": "🥗"
+    }
+  ],
+  "orders": [],
+  "updatedAt": "2026-10-12T16:29:16.851Z"
+}
