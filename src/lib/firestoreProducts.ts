@@ -137,15 +137,15 @@ export const DEFAULT_FOOTER_SETTINGS: FooterSettings = {
   hotline: '09617443377',
   whatsapp: '01410136900',
   phone: '01410136900',
-  email: 'support@seedhavenbd.com',
+  email: 'support@ssseedshop.com',
   address: 'দেবীগঞ্জ, পঞ্চগড় | সারা দেশে ক্যাশ অন ডেলিভারি',
   businessHours: 'সকাল ৯টা - রাত ৮টা',
   copyright: '© 2026 Ss Seed Shop | সর্বস্বত্ব সংরক্ষিত।',
   footerEnabled: true,
-  facebook: 'https://facebook.com/seedhavenbd',
-  youtube: 'https://youtube.com/@seedhavenbd',
-  tiktok: 'https://tiktok.com/@seedhavenbd',
-  instagram: 'https://instagram.com/seedhavenbd',
+  facebook: 'https://facebook.com/ssseedshop',
+  youtube: 'https://youtube.com/@ssseedshop',
+  tiktok: 'https://tiktok.com/@ssseedshop',
+  instagram: 'https://instagram.com/ssseedshop',
   quickLinksTitle: 'দ্রুত লিংক',
   quickLink1Text: 'হোমপেজ',
   quickLink2Text: 'সকল বীজ',
@@ -270,6 +270,10 @@ export interface NoticeSettings {
 }
 
 export interface MenuSettings {
+  bottomNavEnabled?: boolean;
+  menuBarEnabled?: boolean;
+  headerMenuEnabled?: boolean;
+  bottomNavMenuEnabled?: boolean;
   menuOrderTrackerEnabled?: boolean;
   menuDeliveryChargeEnabled?: boolean;
   menuOrderRulesEnabled?: boolean;
@@ -288,6 +292,10 @@ export interface MenuSettings {
 }
 
 export const DEFAULT_MENU_SETTINGS: MenuSettings = {
+  bottomNavEnabled: true,
+  menuBarEnabled: true,
+  headerMenuEnabled: true,
+  bottomNavMenuEnabled: false,
   menuOrderTrackerEnabled: true,
   menuDeliveryChargeEnabled: true,
   menuOrderRulesEnabled: true,
@@ -364,17 +372,17 @@ export const DEFAULT_CONTACT_SETTINGS: ContactSettings = {
   hotline: '09617443377',
   phone: '01410136900',
   whatsapp: '01410136900',
-  email: 'support@seedhavenbd.com',
+  email: 'support@ssseedshop.com',
   address: 'দেবীগঞ্জ, পঞ্চগড় | সারা দেশে ক্যাশ অন ডেলিভারি',
-  facebook: 'https://facebook.com/seedhavenbd',
-  instagram: 'https://instagram.com/seedhavenbd',
-  youtube: 'https://youtube.com/@seedhavenbd',
-  tiktok: 'https://tiktok.com/@seedhavenbd',
+  facebook: 'https://facebook.com/ssseedshop',
+  instagram: 'https://instagram.com/ssseedshop',
+  youtube: 'https://youtube.com/@ssseedshop',
+  tiktok: 'https://tiktok.com/@ssseedshop',
 };
 
 // Default Policy Settings
 export const DEFAULT_POLICY_SETTINGS: PolicySettings = {
-  privacy: `Ss Seed Shop-তে আপনার ব্যক্তিগত তথ্যের নিরাপত্তা আমাদের কাছে অত্যন্ত গুরুত্বপূর্ণ।\n\n১. তথ্য সংগ্রহ: অর্ডার প্রক্রিয়াকরণের জন্য আপনার নাম, ঠিকানা, মোবাইল নম্বর ও ইমেইল সংরক্ষণ করা হয়।\n২. তথ্যের ব্যবহার: শুধুমাত্র পণ্য পৌঁছে দেওয়া এবং অর্ডার সংক্রান্ত যোগাযোগের জন্য আপনার তথ্য ব্যবহৃত হয়।\n৩. তথ্য গোপনীয়তা: আমরা আপনার ব্যক্তিগত তথ্য কোনো তৃতীয় পক্ষের কাছে বিক্রি বা শেয়ার করি না।\n৪. ডাটা সিকিউরিটি: আপনার অর্ডারের তথ্য নিরাপদ ডাটাবেসে সুরক্ষিত রাখা হয়।`,
+  privacy: `Ss Seed Shop-এ আপনার ব্যক্তিগত তথ্যের নিরাপত্তা আমাদের কাছে অত্যন্ত গুরুত্বপূর্ণ।\n\n১. তথ্য সংগ্রহ: অর্ডার প্রক্রিয়াকরণের জন্য আপনার নাম, ঠিকানা, মোবাইল নম্বর ও ইমেইল সংরক্ষণ করা হয়।\n২. তথ্যের ব্যবহার: শুধুমাত্র পণ্য পৌঁছে দেওয়া এবং অর্ডার সংক্রান্ত যোগাযোগের জন্য আপনার তথ্য ব্যবহৃত হয়।\n৩. তথ্য গোপনীয়তা: আমরা আপনার ব্যক্তিগত তথ্য কোনো তৃতীয় পক্ষের কাছে বিক্রি বা শেয়ার করি না।\n৪. ডাটা সিকিউরিটি: আপনার অর্ডারের তথ্য নিরাপদ ডাটাবেসে সুরক্ষিত রাখা হয়।`,
   terms: `Ss Seed Shop থেকে যেকোনো পণ্য ক্রয়ের পূর্বে নিম্নোক্ত শর্তাবলী ভালোভাবে পড়ে নিন:\n\n১. অর্ডার নিশ্চিতকরণ: ওয়েবসাইটে অর্ডার সম্পন্ন করার পর আমাদের প্রতিনিধি কল বা মেসেজের মাধ্যমে অর্ডার কনফার্ম করতে পারেন।\n২. মূল্য ও পেমেন্ট: প্রতিটি বীজের গায়ে বা ওয়েবসাইটে উল্লেখিত মূল্যই চূড়ান্ত। ক্যাশ অন ডেলিভারি বা বিকাশ/নগদ/রকেটে পেমেন্ট করা যাবে।\n৩. স্টক ও ডেলিভারি: সকল প্রোডাক্টের স্টক প্রতিনিয়ত আপডেট হয়। প্রাকৃতিক দুর্যোগ বা পার্সেল পরিবহনে বিলম্ব হলে কাস্টমারকে অবহিত করা হবে।\n৪. বীজের গুণমান: আমরা সর্বোচ্চ মানের বীজ সরবরাহ করে থাকি, তবে অঙ্কুরোদ্গম সম্পূর্ণ নির্ভর করে সঠিক মাটি, আলো, তাপমাত্রা ও পরিচর্যার ওপর।`,
   refund: `গ্রাহক সন্তুষ্টি আমাদের মূল লক্ষ্য। পণ্য গ্রহণে কোনো ত্রুটি পরিলক্ষিত হলে আমাদের রিটার্ন পলিসি প্রযোজ্য হবে:\n\n১. রিটার্ন গ্রহণের সময়: পার্সেল হাতে পাওয়ার পর ডেলিভারি ম্যানের সামনেই প্যাকেট চেক করুন।\n২. ভুল বা ক্ষতিগ্রস্ত পণ্য: ভুল বীজ বা ক্ষতিগ্রস্ত পার্সেল পেলে সাথে সাথে ডেলিভারি ম্যানকে ফেরত দিন অথবা আমাদের হেল্পলাইনে কল করুন।\n৩. রিফান্ড প্রক্রিয়া: কোনো কারণে রিটার্নকৃত পণ্যের রিফান্ড প্রযোজ্য হলে ৩ থেকে ৭ কর্মদিবসের মধ্যে বিকাশ/নগদে টাকা ফেরত দেওয়া হবে।\n৪. শর্তাবলী: ব্যবহৃত বা কাস্টমার দ্বারা ক্ষতিগ্রস্ত পণ্যের ক্ষেত্রে রিটার্ন বা রিফান্ড প্রযোজ্য হবে না।`,
   shipping: `Ss Seed Shop সারা বাংলাদেশে বিশ্বস্ত কুরিয়ার সার্ভিসের মাধ্যমে হোম ডেলিভারি সুবিধা প্রদান করে:\n\n১. ডেলিভারি চার্জ: ঢাকা শহরের ভেতরে ডেলিভারি চার্জ ৮০ টাকা এবং ঢাকার বাইরে ১৫০ টাকা (অথবা নির্ধারিত ডেলিভারি ফি)।\n২. ডেলিভারি সময়: অর্ডার কনফার্ম হওয়ার পর সাধারণত ২ থেকে ৪ কার্যদিবসের মধ্যে ডেলিভারি সম্পন্ন হয়।\n৩. ট্র্যাকিং ও আপডেট: অর্ডার শিপ হওয়ার পর এসএমএস বা হোয়াটসঅ্যাপে ডেলিভারি আপডেট জানানো হবে।\n৪. ক্যাশ অন ডেলিভারি: কুরিয়ার ম্যানের থেকে পণ্য হাতে পেয়ে মূল্য পরিশোধ করার সুবিধা রয়েছে।`,
@@ -382,8 +390,8 @@ export const DEFAULT_POLICY_SETTINGS: PolicySettings = {
 
 // Default SEO Settings
 export const DEFAULT_SEO_SETTINGS: SeoSettings = {
-  siteTitle: 'Ss Seed Shop - প্রিমিয়াম বীজ ও গার্ডেন শপ',
-  keywords: 'বীজ, হাইব্রিড বীজ, ফুলের বীজ, সবজির বীজ, বীজ দোকান, Ss Seed Shop, gardening seeds Bangladesh',
+  siteTitle: 'Ss Seed Shop - মানসম্মত বীজ ও কৃষি সরঞ্জামের নির্ভরযোগ্য শপ',
+  keywords: 'বীজ, হাইব্রিড বীজ, ফুলের বীজ, সবজির বীজ, বীজ দোকান, Ss Seed Shop, ssseedshop, gardening seeds Bangladesh',
   description: 'সারা বাংলাদেশে প্রিমিয়াম কোয়ালিটির সবজি, ফুল, ফল ও অর্গানিক বীজ হোম ডেলিভারি পেতে Ss Seed Shop থেকে অর্ডার করুন।',
   googleVerification: '',
   facebookPixel: '',
@@ -498,18 +506,18 @@ export function subscribeToFooterSettings(callback: (settings: FooterSettings) =
       if (docSnap.exists()) {
         const data = docSnap.data();
         let brandName = data.brandName;
-        if (!brandName || brandName.includes('বিচিত্রা') || brandName.toLowerCase().includes('bichitra')) {
+        if (!brandName || brandName.includes('বিচিত্রা') || brandName.toLowerCase().includes('bichitra') || brandName.toLowerCase().includes('seed haven')) {
           brandName = 'Ss Seed Shop';
         }
 
         let copyright = data.copyright;
-        if (copyright && copyright.includes('বিচিত্রা')) {
-          copyright = copyright.replace(/বীজ\s*বিচিত্রা/g, 'Ss Seed Shop');
+        if (copyright && (copyright.includes('বিচিত্রা') || copyright.includes('Seed Haven') || copyright.includes('seed haven'))) {
+          copyright = copyright.replace(/বীজ\s*বিচিত্রা/g, 'Ss Seed Shop').replace(/Seed\s*Haven(\s*BD)?/gi, 'Ss Seed Shop');
         }
 
         let bio = data.bio;
-        if (bio && bio.includes('বিচিত্রা')) {
-          bio = bio.replace(/বীজ\s*বিচিত্রা/g, 'Ss Seed Shop');
+        if (bio && (bio.includes('বিচিত্রা') || bio.includes('Seed Haven') || bio.includes('seed haven'))) {
+          bio = bio.replace(/বীজ\s*বিচিত্রা/g, 'Ss Seed Shop').replace(/Seed\s*Haven(\s*BD)?/gi, 'Ss Seed Shop');
         }
 
         callback({
@@ -815,6 +823,10 @@ export function subscribeToMenuSettings(callback: (settings: MenuSettings) => vo
       if (docSnap.exists()) {
         const data = docSnap.data();
         callback({
+          bottomNavEnabled: data.bottomNavEnabled !== false,
+          menuBarEnabled: data.menuBarEnabled !== false,
+          headerMenuEnabled: data.headerMenuEnabled !== false,
+          bottomNavMenuEnabled: false,
           menuOrderTrackerEnabled: data.menuOrderTrackerEnabled !== false,
           menuDeliveryChargeEnabled: data.menuDeliveryChargeEnabled !== false,
           menuOrderRulesEnabled: data.menuOrderRulesEnabled !== false,

@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'seedhaven-app',
+      name: 'ss-seed-shop',
       script: 'dist/server.cjs',
       instances: 'max',
       exec_mode: 'cluster',

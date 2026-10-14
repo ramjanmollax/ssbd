@@ -2,7 +2,7 @@
   "entities": {
     "products": {
       "title": "Products",
-      "description": "Store products for SeedHaven",
+      "description": "Store products for Ss Seed Shop",
       "properties": {
         "name": { "type": "string" },
         "category": { "type": "string" },

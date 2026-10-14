@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, ShoppingBag, ShoppingCart, User, Menu as MenuIcon, Search } from 'lucide-react';
+import { Home, ShoppingBag, ShoppingCart, User, Search } from 'lucide-react';
 
 interface BottomNavbarProps {
   onNavigateHome: () => void;
@@ -23,8 +23,6 @@ export const BottomNavbar: React.FC<BottomNavbarProps> = ({
   loginEnabled = true,
   currentUser,
   onOpenAuth,
-  onOpenMenu,
-  menuBarEnabled = false,
   pathname = '/',
   onOpenSearch,
 }) => {
@@ -133,20 +131,6 @@ export const BottomNavbar: React.FC<BottomNavbarProps> = ({
             <span className="text-[10px] tracking-tight font-bold">
               {currentUser ? 'একাউন্ট' : 'লগইন'}
             </span>
-          </button>
-        )}
-
-        {/* Menu (if enabled in settings) */}
-        {menuBarEnabled && (
-          <button
-            onClick={onOpenMenu}
-            className="flex flex-col items-center justify-center gap-0.5 px-3 py-1 rounded-xl text-slate-600 hover:text-[#15803d] transition-all cursor-pointer select-none active:scale-95"
-            title="মেনু"
-          >
-            <div className="relative">
-              <MenuIcon size={21} strokeWidth={2} />
-            </div>
-            <span className="text-[10px] tracking-tight font-bold">মেনু</span>
           </button>
         )}
       </div>

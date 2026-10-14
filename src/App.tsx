@@ -6,6 +6,7 @@ import { Hero } from './components/Hero';
 import { Categories } from './components/Categories';
 import { ProductCard, ProductCardSkeleton } from './components/ProductCard';
 import { ProductDetailPage } from './components/ProductDetailPage';
+import { CategoryPage } from './components/CategoryPage';
 import { CartDrawer } from './components/CartDrawer';
 import { Footer } from './components/Footer';
 import { FaqSection } from './components/FaqSection';
@@ -101,9 +102,27 @@ const ToastNotification: React.FC<{
 
 function getCachedSettings<T>(key: string, defaultValue: T): T {
   try {
-    const saved = safeStorage.getItem(`seedhaven_${key}`);
+    const saved = safeStorage.getItem(`ssseed_${key}`) || safeStorage.getItem(`seedhaven_${key}`);
     if (saved) {
-      return { ...defaultValue, ...JSON.parse(saved) };
+      const parsed = JSON.parse(saved);
+      if (typeof parsed === 'object' && parsed !== null) {
+        if (parsed.brandName && (parsed.brandName.includes('Seed Haven') || parsed.brandName.includes('বিচিত্রা'))) {
+          parsed.brandName = 'Ss Seed Shop';
+        }
+        if (parsed.name && (parsed.name.includes('Seed Haven') || parsed.name.includes('বিচিত্রা'))) {
+          parsed.name = 'Ss Seed Shop';
+        }
+        if (parsed.siteTitle && (parsed.siteTitle.includes('Seed Haven') || parsed.siteTitle.includes('বিচিত্রা'))) {
+          parsed.siteTitle = 'Ss Seed Shop - মানসম্মত বীজ ও কৃষি সরঞ্জামের নির্ভরযোগ্য শপ';
+        }
+        if (typeof parsed.copyright === 'string') {
+          parsed.copyright = parsed.copyright.replace(/Seed\s*Haven(\s*BD)?/gi, 'Ss Seed Shop').replace(/বীজ\s*বিচিত্রা/g, 'Ss Seed Shop');
+        }
+        if (typeof parsed.bio === 'string') {
+          parsed.bio = parsed.bio.replace(/Seed\s*Haven(\s*BD)?/gi, 'Ss Seed Shop').replace(/বীজ\s*বিচিত্রা/g, 'Ss Seed Shop');
+        }
+      }
+      return { ...defaultValue, ...parsed };
     }
   } catch {}
   return defaultValue;
@@ -125,6 +144,7 @@ export default function App() {
 
   const isOrderTrackerRoute = pathname === '/track-order' || pathname === '/track';
   const isProductsRoute = pathname === '/products';
+  const isCategoryRoute = Boolean(routeCategoryId) || isProductsRoute;
 
   // Modals & Panels derived from URL
   const isAboutRoute = pathname === '/about' || pathname === '/about-us';
@@ -342,49 +362,73 @@ export default function App() {
     const unsubFooter = subscribeToFooterSettings((settings) => {
       const val = settings || {};
       setFooterSettings(val);
-      try { safeStorage.setItem('seedhaven_footer', JSON.stringify(val)); } catch {}
+      try {
+        safeStorage.setItem('ssseed_footer', JSON.stringify(val));
+        safeStorage.removeItem('seedhaven_footer');
+      } catch {}
     });
 
     const unsubHomepage = subscribeToHomepageSettings((settings) => {
       const val = settings || DEFAULT_HOMEPAGE_SETTINGS;
       setHomepageSettings(val);
-      try { safeStorage.setItem('seedhaven_homepage', JSON.stringify(val)); } catch {}
+      try {
+        safeStorage.setItem('ssseed_homepage', JSON.stringify(val));
+        safeStorage.removeItem('seedhaven_homepage');
+      } catch {}
     });
 
     const unsubNotice = subscribeToNoticeSettings((settings) => {
       const val = settings || DEFAULT_NOTICE_SETTINGS;
       setNoticeSettings(val);
-      try { safeStorage.setItem('seedhaven_notice', JSON.stringify(val)); } catch {}
+      try {
+        safeStorage.setItem('ssseed_notice', JSON.stringify(val));
+        safeStorage.removeItem('seedhaven_notice');
+      } catch {}
     });
 
     const unsubContact = subscribeToContactSettings((settings) => {
       const val = settings || DEFAULT_CONTACT_SETTINGS;
       setContactSettings(val);
-      try { safeStorage.setItem('seedhaven_contact', JSON.stringify(val)); } catch {}
+      try {
+        safeStorage.setItem('ssseed_contact', JSON.stringify(val));
+        safeStorage.removeItem('seedhaven_contact');
+      } catch {}
     });
 
     const unsubPolicy = subscribeToPolicySettings((settings) => {
       const val = settings || DEFAULT_POLICY_SETTINGS;
       setPolicySettings(val);
-      try { safeStorage.setItem('seedhaven_policies', JSON.stringify(val)); } catch {}
+      try {
+        safeStorage.setItem('ssseed_policies', JSON.stringify(val));
+        safeStorage.removeItem('seedhaven_policies');
+      } catch {}
     });
 
     const unsubSeo = subscribeToSeoSettings((settings) => {
       const val = settings || DEFAULT_SEO_SETTINGS;
       setSeoSettings(val);
-      try { safeStorage.setItem('seedhaven_seo', JSON.stringify(val)); } catch {}
+      try {
+        safeStorage.setItem('ssseed_seo', JSON.stringify(val));
+        safeStorage.removeItem('seedhaven_seo');
+      } catch {}
     });
 
     const unsubStore = subscribeToStoreSettings((settings) => {
       const val = settings || DEFAULT_STORE_SETTINGS;
       setStoreSettings(val);
-      try { safeStorage.setItem('seedhaven_store', JSON.stringify(val)); } catch {}
+      try {
+        safeStorage.setItem('ssseed_store', JSON.stringify(val));
+        safeStorage.removeItem('seedhaven_store');
+      } catch {}
     });
 
     const unsubMenu = subscribeToMenuSettings((settings) => {
       const val = settings || DEFAULT_MENU_SETTINGS;
       setMenuSettings(val);
-      try { safeStorage.setItem('seedhaven_menu', JSON.stringify(val)); } catch {}
+      try {
+        safeStorage.setItem('ssseed_menu', JSON.stringify(val));
+        safeStorage.removeItem('seedhaven_menu');
+      } catch {}
     });
 
     const unsubIntegrations = subscribeToIntegrationsSettings((settings) => {
@@ -597,8 +641,7 @@ export default function App() {
 
     if (!isModalRoute) {
       if (isProductsRoute || routeCategoryId) {
-        const el = document.getElementById('products');
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       } else if (!routeProductId) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
@@ -928,13 +971,11 @@ export default function App() {
               selectedCategory={selectedCategory}
               onSelectCategory={(catId) => {
                 setSelectedCategory(catId);
-                navigate(`/category/${catId}`);
-                const el = document.getElementById('products');
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
+                navigate(catId === 'all' ? '/products' : `/category/${catId}`);
               }}
               onOpenSearch={() => handleOpenSearch(true)}
               onNavigateHome={() => navigate('/')}
-              menuBarEnabled={menuSettings?.menuBarEnabled === true}
+              menuBarEnabled={menuSettings?.menuBarEnabled !== false && menuSettings?.headerMenuEnabled !== false}
             />
           )}
 
@@ -1013,6 +1054,36 @@ export default function App() {
               isLoading={isLoadingOrders}
               onOpenMemo={(ord) => setMemoOrder(ord)}
             />
+          ) : isCategoryRoute ? (
+            <CategoryPage
+              categoryId={routeCategoryId || 'all'}
+              categoriesList={categoriesList}
+              allProducts={productsList}
+              onSelectCategory={(catId) => {
+                setSelectedCategory(catId);
+                navigate(catId === 'all' ? '/products' : `/category/${catId}`);
+              }}
+              onSelectProduct={(p) => handleSelectProduct(p)}
+              onAddToCart={handleAddToCart}
+              onDirectCheckout={(p, q) => {
+                handleAddToCart(p, q);
+                handleOpenCart(true);
+              }}
+              onOpenCart={() => handleOpenCart(true)}
+              onNavigateHome={() => navigate('/')}
+              wishlist={wishlist}
+              onToggleWishlist={handleToggleWishlist}
+              compareProducts={compareProducts}
+              onToggleCompare={handleToggleCompare}
+              ordersList={ordersList}
+              userRatings={userRatings}
+              onRateProduct={handleRateProduct}
+              storeSettings={storeSettings}
+              footerSettings={footerSettings}
+              contactSettings={contactSettings}
+              onOpenContact={(tab) => handleOpenContact(true, tab || 'contact')}
+              onOpenPolicy={(tab) => handleOpenPolicy(true, tab || 'privacy')}
+            />
           ) : (
             <>
               {/* Notice / Popup Offer Modal */}
@@ -1044,9 +1115,7 @@ export default function App() {
                   isLoading={isLoadingCategories}
                   onSelectCategory={(id) => {
                     setSelectedCategory(id);
-                    navigate(`/category/${id}`);
-                    const el = document.getElementById('products');
-                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    navigate(id === 'all' ? '/products' : `/category/${id}`);
                   }}
                 />
               )}
@@ -1439,8 +1508,6 @@ export default function App() {
             loginEnabled={storeSettings?.loginEnabled !== false}
             currentUser={currentUser}
             onOpenAuth={handleOpenAuth}
-            onOpenMenu={() => handleOpenMenu(true)}
-            menuBarEnabled={menuSettings?.menuBarEnabled === true}
             pathname={location.pathname}
             onOpenSearch={() => navigate('/search')}
           />

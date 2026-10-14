@@ -196,11 +196,11 @@ export const Header: React.FC<HeaderProps> = ({
                 <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-xs shrink-0 text-base sm:text-lg">
                   🌱
                 </div>
-                {/* Brand Short Form: SHBD */}
+                {/* Brand Short Form: SS SEED */}
                 <div className="flex flex-col justify-center leading-none min-w-0">
                   <div className="font-black text-xl sm:text-2xl tracking-tight flex items-center">
-                    <span className="text-slate-900">SH</span>
-                    <span className="text-amber-500">BD</span>
+                    <span className="text-slate-900">SS</span>
+                    <span className="text-emerald-600 font-extrabold ml-1">SEED</span>
                   </div>
                   <span className="hidden sm:block text-[9px] font-bold text-slate-500 tracking-wider uppercase mt-0.5">
                     {storeSettings?.name || "Ss Seed Shop"}

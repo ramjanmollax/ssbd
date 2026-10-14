@@ -1,28 +1,28 @@
 services:
-  seedhaven-web:
+  ss-seed-shop-web:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: seedhaven_web
+    container_name: ss_seed_shop_web
     restart: unless-stopped
     ports:
       - "${PORT:-3000}:3000"
     environment:
       - NODE_ENV=production
       - PORT=3000
-      - SITE_URL=${SITE_URL:-https://seedhavenbd.com}
-      - APP_URL=${APP_URL:-https://seedhavenbd.com}
+      - SITE_URL=${SITE_URL:-https://ssseedshop.com}
+      - APP_URL=${APP_URL:-https://ssseedshop.com}
       - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS:-*}
       - META_PIXEL_ID=${META_PIXEL_ID:-}
       - META_CAPI_ACCESS_TOKEN=${META_CAPI_ACCESS_TOKEN:-}
       - GOOGLE_SHEET_ID=${GOOGLE_SHEET_ID:-1kPzbYFUkgN8dW5BVqeNtoKM8LbRvHAIfQIQZBKkv-Ws}
     volumes:
       # Persistent local storage for orders, secure settings, and uploaded pictures
-      - seedhaven_data:/app/data
-      - seedhaven_uploads:/app/public/uploads
+      - ssseed_data:/app/data
+      - ssseed_uploads:/app/public/uploads
 
 volumes:
-  seedhaven_data:
+  ssseed_data:
     driver: local
-  seedhaven_uploads:
+  ssseed_uploads:
     driver: local
