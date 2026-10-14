@@ -256,7 +256,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
     const combinedAddress = `গ্রাম: ${village}${union ? `, ইউনিয়ন: ${union}` : ''}, থানা: ${thana}, জেলা: ${district}${landmark ? `. ল্যান্ডমার্ক: ${landmark}` : ''}`;
 
     const newOrder: OrderDetails = {
-      orderId: 'SHB-' + Math.floor(100000 + Math.random() * 900000),
+      orderId: 'SS-' + Math.floor(100000 + Math.random() * 900000),
       customerName,
       phone,
       phone2: phone2.trim() ? phone2 : undefined,

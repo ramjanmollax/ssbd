@@ -1,7 +1,7 @@
 import React from 'react';
-import { X, Printer, Download, CheckCircle2, Building2, Phone, MapPin, Calendar, FileText } from 'lucide-react';
+import { X, Printer, Building2, MapPin, FileText } from 'lucide-react';
 import { OrderDetails } from '../types';
-import { ContactSettings, StoreSettings } from '../lib/firestoreProducts';
+import { ContactSettings, StoreSettings, FooterSettings } from '../lib/firestoreProducts';
 
 interface OrderMemoModalProps {
   isOpen: boolean;
@@ -9,6 +9,7 @@ interface OrderMemoModalProps {
   order: OrderDetails | null;
   storeSettings?: StoreSettings;
   contactSettings?: ContactSettings;
+  footerSettings?: FooterSettings;
 }
 
 export const OrderMemoModal: React.FC<OrderMemoModalProps> = ({
@@ -17,6 +18,7 @@ export const OrderMemoModal: React.FC<OrderMemoModalProps> = ({
   order,
   storeSettings,
   contactSettings,
+  footerSettings,
 }) => {
   if (!isOpen || !order) return null;
 
@@ -24,11 +26,64 @@ export const OrderMemoModal: React.FC<OrderMemoModalProps> = ({
     window.print();
   };
 
-  const storeName = storeSettings?.name || 'Ss Seed Shop';
-  const storeLogo = storeSettings?.logo || '';
-  const storeAddress = contactSettings?.address || 'দেবীগঞ্জ, পঞ্চগড় | সারা দেশে ডেলিভারি';
-  const storePhone = contactSettings?.hotline || contactSettings?.phone || '09617443377';
-  const storeEmail = contactSettings?.email || 'ssseedshop@gmail.com';
+  // Synchronized store branding and address details
+  const storeName = storeSettings?.name?.trim() || footerSettings?.brandName?.trim() || 'Ss Seed Shop';
+  const storeLogo = storeSettings?.logo?.trim() || footerSettings?.footerLogoUrl?.trim() || '';
+
+  // Store address resolution (Store settings -> Contact settings -> Footer settings)
+  const storeAddress =
+    (storeSettings?.address && storeSettings.address.trim()) ||
+    (contactSettings?.address && contactSettings.address.trim()) ||
+    (footerSettings?.address && footerSettings.address.trim()) ||
+    'ঢাকা, বাংলাদেশ';
+
+  const storePhone =
+    (storeSettings?.hotline && storeSettings.hotline.trim()) ||
+    (storeSettings?.phone && storeSettings.phone.trim()) ||
+    (contactSettings?.hotline && contactSettings.hotline.trim()) ||
+    (contactSettings?.phone && contactSettings.phone.trim()) ||
+    (footerSettings?.hotline && footerSettings.hotline.trim()) ||
+    (footerSettings?.phone && footerSettings.phone.trim()) ||
+    '01915957187';
+
+  const storeEmail =
+    (storeSettings?.email && storeSettings.email.trim()) ||
+    (contactSettings?.email && contactSettings.email.trim()) ||
+    (footerSettings?.email && footerSettings.email.trim()) ||
+    '';
+
+  const invoiceSubtitle =
+    (storeSettings?.invoiceSubtitle && storeSettings.invoiceSubtitle.trim()) ||
+    (storeSettings?.tagline && storeSettings.tagline.trim()) ||
+    (footerSettings?.tagline && footerSettings.tagline.trim()) ||
+    'প্রিমিয়াম বীজ ও কৃষি উপকরণ সমাহার';
+
+  const invoiceNote =
+    (storeSettings?.invoiceNote && storeSettings.invoiceNote.trim()) ||
+    '• বীজ রোপণের পূর্বে প্যাকেটের গায়ে দেওয়া নির্দেশিকা ভালোভাবে অনুসরণ করুন।';
+
+  const invoiceFooterMsg =
+    ((storeSettings as any)?.invoiceFooterMsg && (storeSettings as any).invoiceFooterMsg.trim()) ||
+    `${storeName} বেছে নেওয়ার জন্য আপনাকে ধন্যবাদ!`;
+
+  // Customer order and delivery details
+  const orderIdDisplay = order.orderId || ('#' + (order.id ? order.id.slice(0, 8) : ''));
+  const customerName = order.customerName || 'গ্রাহক';
+  const customerPhone = order.phone || '-';
+  const customerPhone2 = order.phone2 ? ` | বিকল্প: ${order.phone2}` : '';
+  const customerDistrict = order.district || '-';
+
+  let customerAddress = order.address?.trim() || '';
+  const extraParts = [order.village, order.union, order.thana].filter(Boolean).map(s => String(s).trim()).filter(Boolean);
+  if (extraParts.length > 0 && !extraParts.some(p => customerAddress.includes(p))) {
+    customerAddress = extraParts.join(', ') + (customerAddress ? ', ' + customerAddress : '');
+  }
+  if (!customerAddress) {
+    customerAddress = order.district || '-';
+  }
+
+  const customerLandmark = order.landmark ? ` (ল্যান্ডমার্ক: ${order.landmark})` : '';
+  const customerNote = (order as any).note || (order as any).customerNote || '';
 
   const items = Array.isArray(order.items) ? order.items : [];
   const subtotal = Number(order.subtotal || order.total || 0);
@@ -99,7 +154,7 @@ export const OrderMemoModal: React.FC<OrderMemoModalProps> = ({
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b-2 border-emerald-700 pb-5 mb-5">
             <div className="flex items-start gap-3.5">
               {storeLogo ? (
-                <img src={storeLogo} alt={storeName} className="h-12 w-auto object-contain max-w-[120px]" />
+                <img src={storeLogo} alt={storeName} className="h-12 w-auto object-contain max-w-[120px] rounded-lg" />
               ) : (
                 <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-600 to-emerald-800 text-white flex items-center justify-center font-black text-xl shrink-0">
                   🌱
@@ -107,10 +162,11 @@ export const OrderMemoModal: React.FC<OrderMemoModalProps> = ({
               )}
               <div>
                 <h1 className="text-xl sm:text-2xl font-black text-emerald-900 leading-tight">{storeName}</h1>
-                <p className="text-xs font-semibold text-emerald-800/80">প্রিমিয়াম বীজ ও কৃষি উপকরণ সমাহার</p>
+                <p className="text-xs font-semibold text-emerald-800/80">{invoiceSubtitle}</p>
                 <p className="text-xs text-gray-600 mt-1 flex items-center gap-1.5 flex-wrap">
                   <span>📍 {storeAddress}</span>
                   <span>| 📞 হটলাইন: {storePhone}</span>
+                  {storeEmail && <span>| ✉️ {storeEmail}</span>}
                 </p>
               </div>
             </div>
@@ -119,9 +175,9 @@ export const OrderMemoModal: React.FC<OrderMemoModalProps> = ({
               <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-700 text-white mb-1">
                 ক্যাশ মেমো / ইনভয়েস
               </span>
-              <p className="text-sm font-black text-emerald-950">অর্ডার আইডি: #{order.orderId || order.id?.slice(0, 8)}</p>
+              <p className="text-sm font-black text-emerald-950">অর্ডার আইডি: {orderIdDisplay}</p>
               <p className="text-xs font-medium text-gray-600 mt-0.5">
-                তারিখ: {order.createdAt || new Date().toLocaleDateString('bn-BD')}
+                তারিখ: {order.createdAt ? (typeof order.createdAt === 'string' ? order.createdAt : new Date((order.createdAt as any)?.seconds ? (order.createdAt as any).seconds * 1000 : order.createdAt).toLocaleDateString('bn-BD')) : new Date().toLocaleDateString('bn-BD')}
               </p>
             </div>
           </div>
@@ -133,17 +189,20 @@ export const OrderMemoModal: React.FC<OrderMemoModalProps> = ({
                 <Building2 size={14} />
                 গ্রাহকের তথ্য
               </p>
-              <p className="py-0.5"><strong className="text-slate-900">নাম:</strong> {order.customerName || 'গ্রাহক'}</p>
-              <p className="py-0.5"><strong className="text-slate-900">মোবাইল:</strong> {order.phone || '-'}</p>
-              <p className="py-0.5"><strong className="text-slate-900">জেলা/অঞ্চল:</strong> {order.district || '-'}</p>
+              <p className="py-0.5"><strong className="text-slate-900">নাম:</strong> {customerName}</p>
+              <p className="py-0.5"><strong className="text-slate-900">মোবাইল:</strong> {customerPhone}{customerPhone2}</p>
+              <p className="py-0.5"><strong className="text-slate-900">জেলা/অঞ্চল:</strong> {customerDistrict}</p>
+              {customerNote && (
+                <p className="py-0.5 text-slate-600"><strong className="text-slate-900">কাস্টমার নোট:</strong> {customerNote}</p>
+              )}
             </div>
             <div>
               <p className="font-extrabold text-emerald-800 text-xs uppercase tracking-wider mb-2 flex items-center gap-1.5">
                 <MapPin size={14} />
                 ডেলিভারি ঠিকানা
               </p>
-              <p className="py-0.5"><strong className="text-slate-900">ঠিকানা:</strong> {order.address || '-'}</p>
-              <p className="py-0.5"><strong className="text-slate-900">পেমেন্ট মেথড:</strong> <span className="uppercase font-bold text-emerald-800">{order.paymentMethod || 'ক্যাশ অন ডেলিভারি (COD)'}</span></p>
+              <p className="py-0.5"><strong className="text-slate-900">ঠিকানা:</strong> {customerAddress}{customerLandmark}</p>
+              <p className="py-0.5"><strong className="text-slate-900">পেমেন্ট মেথড:</strong> <span className="uppercase font-bold text-emerald-800">{order.paymentMethod === 'bkash' ? 'বিকাশ' : order.paymentMethod === 'nagad' ? 'নগদ' : order.paymentMethod === 'rocket' ? 'রকেট' : 'ক্যাশ অন ডেলিভারি (COD)'}</span></p>
               <p className="py-0.5"><strong className="text-slate-900">অর্ডার স্ট্যাটাস:</strong> <span className="font-bold text-emerald-700">{order.status || 'প্রক্রিয়াধীন'}</span></p>
             </div>
           </div>
@@ -194,9 +253,9 @@ export const OrderMemoModal: React.FC<OrderMemoModalProps> = ({
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6 mb-8">
             <div className="text-xs text-slate-600 max-w-sm space-y-1">
               <p className="font-bold text-emerald-900">বিশেষ দ্রষ্টব্য:</p>
-              <p>• বীজ রোপণের পূর্বে প্যাকেটের গায়ে দেওয়া নির্দেশিকা ভালোভাবে অনুসরণ করুন।</p>
+              <p>{invoiceNote}</p>
               <p>• যেকোনো পরামর্শ বা সহায়তার জন্য আমাদের হটলাইনে যোগাযোগ করুন: <strong>{storePhone}</strong></p>
-              <p className="font-semibold text-emerald-700 pt-1">Ss Seed Shop বেছে নেওয়ার জন্য আপনাকে ধন্যবাদ!</p>
+              <p className="font-semibold text-emerald-700 pt-1">{invoiceFooterMsg}</p>
             </div>
 
             <div className="w-full sm:w-64 bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs space-y-2">

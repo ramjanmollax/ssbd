@@ -17,12 +17,14 @@ import {
   Sparkles,
   ExternalLink,
 } from 'lucide-react';
-import { ContactSettings } from '../lib/firestoreProducts';
+import { ContactSettings, StoreSettings, FooterSettings } from '../lib/firestoreProducts';
 
 interface ContactModalProps {
   isOpen: boolean;
   onClose: () => void;
   settings?: ContactSettings;
+  storeSettings?: StoreSettings;
+  footerSettings?: FooterSettings;
   initialTab?: 'about' | 'contact';
   whatsappEnabled?: boolean;
 }
@@ -31,6 +33,8 @@ export const ContactModal: React.FC<ContactModalProps> = ({
   isOpen,
   onClose,
   settings,
+  storeSettings,
+  footerSettings,
   initialTab = 'contact',
   whatsappEnabled,
 }) => {
@@ -42,17 +46,31 @@ export const ContactModal: React.FC<ContactModalProps> = ({
 
   if (!isOpen) return null;
 
-  // Contact details from settings or defaults
-  const hotline = settings?.hotline || '09617443377';
-  const phoneNum = settings?.phone || '01410136900';
-  const whatsapp = settings?.whatsapp || '01410136900';
-  const email = settings?.email || 'ssseedshop@gmail.com';
-  const address = settings?.address || 'দেবীগঞ্জ, পঞ্চগড় | সারা দেশে ক্যাশ অন ডেলিভারি';
+  // Store brand info
+  const storeName = storeSettings?.name || 'Ss Seed Shop';
+  const storeLogo = storeSettings?.logo || footerSettings?.footerLogoUrl || '';
+  const storeTagline = settings?.tagline || storeSettings?.tagline || footerSettings?.tagline || 'মানসম্মত ও খাঁটি বীজ সরবরাহকারী';
 
-  const facebook = settings?.facebook || 'https://facebook.com/ssseedshop';
-  const instagram = settings?.instagram || 'https://instagram.com/ssseedshop';
-  const youtube = settings?.youtube || 'https://youtube.com/@ssseedshop';
-  const tiktok = settings?.tiktok || 'https://tiktok.com/@ssseedshop';
+  // Contact details from settings or defaults
+  const hotline = settings?.hotline || storeSettings?.hotline || footerSettings?.hotline || '09617443377';
+  const phoneNum = settings?.phone || storeSettings?.phone || footerSettings?.phone || '01410136900';
+  const whatsapp = settings?.whatsapp || storeSettings?.phone || footerSettings?.whatsapp || '01410136900';
+  const email = settings?.email || storeSettings?.email || footerSettings?.email || 'support@ssseedshop.com';
+  const address = settings?.address || storeSettings?.address || footerSettings?.address || 'ঢাকা, বাংলাদেশ';
+
+  // About Us customizations
+  const aboutTitle = settings?.aboutTitle || 'আমাদের পথচলা ও অঙ্গীকার';
+  const aboutDescription = settings?.aboutDescription || `${storeName} হলো বাংলাদেশের অন্যতম বিশ্বস্ত অনলাইন বীজ বাজার। আমাদের মূল লক্ষ্য—গৃহস্থালী, ছাদবাগান ও কমার্শিয়াল খামারিদের কাছে ১০০% খাঁটি, উচ্চ অঙ্কুরোদগম ক্ষমতাসম্পন্ন ও উন্নত জাতের সবজি, ফল, ফুল ও ভেষজ বীজ পৌঁছে দেওয়া।`;
+  const perk1Title = settings?.aboutPerk1Title || '১০০% জেনুইন বীজ';
+  const perk1Desc = settings?.aboutPerk1Desc || 'উচ্চ অঙ্কুরোদগম ও বাছাইকৃত জাতের বীজ';
+  const perk2Title = settings?.aboutPerk2Title || 'সারা দেশে হোম ডেলিভারি';
+  const perk2Desc = settings?.aboutPerk2Desc || 'নিরাপদ ক্যাশ অন ডেলিভারি সুবিধা';
+  const showroomTitle = settings?.showroomTitle || 'প্রধান শোরুম ও দপ্তর:';
+
+  const facebook = settings?.facebook || footerSettings?.facebook || 'https://facebook.com/ssseedshop';
+  const instagram = settings?.instagram || footerSettings?.instagram || 'https://instagram.com/ssseedshop';
+  const youtube = settings?.youtube || footerSettings?.youtube || 'https://youtube.com/@ssseedshop';
+  const tiktok = settings?.tiktok || footerSettings?.tiktok || 'https://tiktok.com/@ssseedshop';
 
   const hotlineClean = hotline.replace(/[^0-9+]/g, '');
   const phoneClean = phoneNum.replace(/[^0-9+]/g, '');
@@ -103,15 +121,19 @@ export const ContactModal: React.FC<ContactModalProps> = ({
 
         {/* Brand Header */}
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center text-2xl border border-emerald-200 shrink-0">
-            🌱
-          </div>
+          {storeLogo ? (
+            <img src={storeLogo} alt={storeName} className="w-12 h-12 rounded-2xl object-contain border border-emerald-200 shrink-0 bg-emerald-50/50 p-1" />
+          ) : (
+            <div className="w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center text-2xl border border-emerald-200 shrink-0">
+              🌱
+            </div>
+          )}
           <div>
             <h3 className="text-xl sm:text-2xl font-black text-[#063d24]">
-              Ss Seed Shop
+              {storeName}
             </h3>
             <p className="text-xs font-semibold text-[#176b38] flex items-center gap-1">
-              <span>মানসম্মত ও খাটি বীজ সরবরাহকারী</span>
+              <span>{storeTagline}</span>
             </p>
           </div>
         </div>
@@ -149,10 +171,10 @@ export const ContactModal: React.FC<ContactModalProps> = ({
             <div className="bg-[#f8fbf6] p-4 rounded-2xl border border-[#e3ebe0] space-y-2">
               <div className="flex items-center gap-2 text-[#176b38] font-black text-sm">
                 <Sparkles size={16} />
-                <span>আমাদের পথচলা ও অঙ্গীকার</span>
+                <span>{aboutTitle}</span>
               </div>
-              <p className="text-xs text-[#3a4e3d] leading-relaxed">
-                <strong>Ss Seed Shop</strong> হলো বাংলাদেশের অন্যতম বিশ্বস্ত অনলাইন বীজ বাজার। আমাদের মূল লক্ষ্য—গৃহস্থালী, ছাদবাগান ও কমার্শিয়াল খামারিদের কাছে ১০০% খাঁটি, উচ্চ অঙ্কুরোদ্গম ক্ষমতাসম্পন্ন ও উন্নত জাতের সবজি, ফল, ফুল ও ভেষজ বীজ পৌঁছে দেওয়া।
+              <p className="text-xs text-[#3a4e3d] leading-relaxed whitespace-pre-line">
+                {aboutDescription}
               </p>
             </div>
 
@@ -161,16 +183,16 @@ export const ContactModal: React.FC<ContactModalProps> = ({
               <div className="bg-emerald-50/60 p-3 rounded-2xl border border-emerald-100 flex items-start gap-2.5">
                 <ShieldCheck size={20} className="text-emerald-700 shrink-0 mt-0.5" />
                 <div>
-                  <h4 className="text-xs font-bold text-[#063d24]">১০০% জেনুইন বীজ</h4>
-                  <p className="text-[10px] text-[#526250] mt-0.5">উচ্চ অঙ্কুরোদ্গম ও বাছাইকৃত জাতের বীজ</p>
+                  <h4 className="text-xs font-bold text-[#063d24]">{perk1Title}</h4>
+                  <p className="text-[10px] text-[#526250] mt-0.5">{perk1Desc}</p>
                 </div>
               </div>
 
               <div className="bg-emerald-50/60 p-3 rounded-2xl border border-emerald-100 flex items-start gap-2.5">
                 <Truck size={20} className="text-emerald-700 shrink-0 mt-0.5" />
                 <div>
-                  <h4 className="text-xs font-bold text-[#063d24]">সারা দেশে হোম ডেলিভারি</h4>
-                  <p className="text-[10px] text-[#526250] mt-0.5">নিরাপদ ক্যাশ অন ডেলিভারি সুবিধা</p>
+                  <h4 className="text-xs font-bold text-[#063d24]">{perk2Title}</h4>
+                  <p className="text-[10px] text-[#526250] mt-0.5">{perk2Desc}</p>
                 </div>
               </div>
             </div>
@@ -180,7 +202,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
               <div className="flex items-start gap-2 text-xs text-[#2d4231]">
                 <MapPin size={16} className="text-[#176b38] shrink-0 mt-0.5" />
                 <div>
-                  <span className="font-bold block text-[#063d24]">প্রধান শোরুম ও দপ্তর:</span>
+                  <span className="font-bold block text-[#063d24]">{showroomTitle}</span>
                   <span>{address}</span>
                 </div>
               </div>

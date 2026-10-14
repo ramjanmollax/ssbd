@@ -1432,6 +1432,7 @@ export default function App() {
           order={memoOrder}
           storeSettings={storeSettings}
           contactSettings={contactSettings}
+          footerSettings={footerSettings}
         />
 
         {/* Quick Search Modal */}
@@ -1450,6 +1451,8 @@ export default function App() {
           isOpen={isContactOpen}
           onClose={handleCloseModal}
           settings={contactSettings}
+          storeSettings={storeSettings}
+          footerSettings={footerSettings}
           initialTab={contactModalTab}
         />
 

@@ -69,6 +69,8 @@ export interface OrderDetails {
   union?: string;
   village?: string;
   landmark?: string;
+  note?: string;
+  customerNote?: string;
   items: CartItem[];
   subtotal: number;
   discount: number;

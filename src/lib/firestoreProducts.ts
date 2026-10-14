@@ -194,6 +194,15 @@ export interface ContactSettings {
   instagram?: string;
   youtube?: string;
   tiktok?: string;
+  // About Us Modal Customizations (Managed from Admin Panel)
+  tagline?: string;
+  aboutTitle?: string;
+  aboutDescription?: string;
+  aboutPerk1Title?: string;
+  aboutPerk1Desc?: string;
+  aboutPerk2Title?: string;
+  aboutPerk2Desc?: string;
+  showroomTitle?: string;
 }
 
 export interface PolicySettings {
@@ -205,9 +214,14 @@ export interface PolicySettings {
 
 export interface StoreSettings {
   name?: string;
+  tagline?: string;
   logo?: string;
   favicon?: string;
   hours?: string;
+  address?: string;
+  phone?: string;
+  hotline?: string;
+  email?: string;
   currency?: string;
   language?: string;
   loginEnabled?: boolean;
@@ -216,6 +230,10 @@ export interface StoreSettings {
   cultivationGuideEnabled?: boolean;
   cultivationGuideTitle?: string;
   defaultCultivationGuide?: string;
+  // Invoice / Cash Memo Customizations
+  invoiceSubtitle?: string;
+  invoiceNote?: string;
+  invoiceFooterMsg?: string;
 }
 
 export interface SeoSettings {
@@ -373,11 +391,19 @@ export const DEFAULT_CONTACT_SETTINGS: ContactSettings = {
   phone: '01410136900',
   whatsapp: '01410136900',
   email: 'support@ssseedshop.com',
-  address: 'দেবীগঞ্জ, পঞ্চগড় | সারা দেশে ক্যাশ অন ডেলিভারি',
+  address: 'ঢাকা, বাংলাদেশ',
   facebook: 'https://facebook.com/ssseedshop',
   instagram: 'https://instagram.com/ssseedshop',
   youtube: 'https://youtube.com/@ssseedshop',
   tiktok: 'https://tiktok.com/@ssseedshop',
+  tagline: 'মানসম্মত ও খাঁটি বীজ সরবরাহকারী',
+  aboutTitle: 'আমাদের পথচলা ও অঙ্গীকার',
+  aboutDescription: 'Ss Seed Shop হলো বাংলাদেশের অন্যতম বিশ্বস্ত অনলাইন বীজ বাজার। আমাদের মূল লক্ষ্য—গৃহস্থালী, ছাদবাগান ও কমার্শিয়াল খামারিদের কাছে ১০০% খাঁটি, উচ্চ অঙ্কুরোদগম ক্ষমতাসম্পন্ন ও উন্নত জাতের সবজি, ফল, ফুল ও ভেষজ বীজ পৌঁছে দেওয়া।',
+  aboutPerk1Title: '১০০% জেনুইন বীজ',
+  aboutPerk1Desc: 'উচ্চ অঙ্কুরোদগম ও বাছাইকৃত জাতের বীজ',
+  aboutPerk2Title: 'সারা দেশে হোম ডেলিভারি',
+  aboutPerk2Desc: 'নিরাপদ ক্যাশ অন ডেলিভারি সুবিধা',
+  showroomTitle: 'প্রধান শোরুম ও দপ্তর:',
 };
 
 // Default Policy Settings
@@ -418,9 +444,14 @@ export const DEFAULT_CULTIVATION_GUIDE = `১ - হালকা রোদে র
 // Default Store Settings
 export const DEFAULT_STORE_SETTINGS: StoreSettings = {
   name: 'Ss Seed Shop',
+  tagline: 'মানসম্মত ও খাঁটি বীজ সরবরাহকারী',
   logo: '',
   favicon: '',
   hours: 'সকাল ৯:০০ - রাত ১০:০০ (প্রতিদিন)',
+  address: 'ঢাকা, বাংলাদেশ',
+  phone: '01410136900',
+  hotline: '09617443377',
+  email: 'support@ssseedshop.com',
   currency: 'BDT',
   language: 'bn',
   loginEnabled: false,
@@ -429,6 +460,9 @@ export const DEFAULT_STORE_SETTINGS: StoreSettings = {
   cultivationGuideEnabled: true,
   cultivationGuideTitle: 'চাষ পদ্ধতি',
   defaultCultivationGuide: DEFAULT_CULTIVATION_GUIDE,
+  invoiceSubtitle: 'প্রিমিয়াম বীজ ও কৃষি উপকরণ সমাহার',
+  invoiceNote: '• বীজ রোপণের পূর্বে প্যাকেটের গায়ে দেওয়া নির্দেশিকা ভালোভাবে অনুসরণ করুন।',
+  invoiceFooterMsg: 'Ss Seed Shop বেছে নেওয়ার জন্য আপনাকে ধন্যবাদ!',
 };
 
 // Subscribe to real-time homepage settings from Firestore
@@ -683,15 +717,23 @@ export function subscribeToContactSettings(callback: (settings: ContactSettings)
       if (docSnap.exists()) {
         const data = docSnap.data();
         callback({
-          hotline: data.hotline || DEFAULT_CONTACT_SETTINGS.hotline,
-          phone: data.phone || DEFAULT_CONTACT_SETTINGS.phone,
-          whatsapp: data.whatsapp || DEFAULT_CONTACT_SETTINGS.whatsapp,
-          email: data.email || DEFAULT_CONTACT_SETTINGS.email,
-          address: data.address || DEFAULT_CONTACT_SETTINGS.address,
-          facebook: data.facebook || DEFAULT_CONTACT_SETTINGS.facebook,
-          instagram: data.instagram || DEFAULT_CONTACT_SETTINGS.instagram,
-          youtube: data.youtube || DEFAULT_CONTACT_SETTINGS.youtube,
-          tiktok: data.tiktok || DEFAULT_CONTACT_SETTINGS.tiktok,
+          hotline: data.hotline !== undefined && data.hotline !== '' ? data.hotline : DEFAULT_CONTACT_SETTINGS.hotline,
+          phone: data.phone !== undefined && data.phone !== '' ? data.phone : DEFAULT_CONTACT_SETTINGS.phone,
+          whatsapp: data.whatsapp !== undefined && data.whatsapp !== '' ? data.whatsapp : DEFAULT_CONTACT_SETTINGS.whatsapp,
+          email: data.email !== undefined && data.email !== '' ? data.email : DEFAULT_CONTACT_SETTINGS.email,
+          address: data.address !== undefined && data.address !== '' ? data.address : DEFAULT_CONTACT_SETTINGS.address,
+          facebook: data.facebook !== undefined ? data.facebook : DEFAULT_CONTACT_SETTINGS.facebook,
+          instagram: data.instagram !== undefined ? data.instagram : DEFAULT_CONTACT_SETTINGS.instagram,
+          youtube: data.youtube !== undefined ? data.youtube : DEFAULT_CONTACT_SETTINGS.youtube,
+          tiktok: data.tiktok !== undefined ? data.tiktok : DEFAULT_CONTACT_SETTINGS.tiktok,
+          tagline: data.tagline !== undefined && data.tagline !== '' ? data.tagline : DEFAULT_CONTACT_SETTINGS.tagline,
+          aboutTitle: data.aboutTitle !== undefined && data.aboutTitle !== '' ? data.aboutTitle : DEFAULT_CONTACT_SETTINGS.aboutTitle,
+          aboutDescription: data.aboutDescription !== undefined && data.aboutDescription !== '' ? data.aboutDescription : DEFAULT_CONTACT_SETTINGS.aboutDescription,
+          aboutPerk1Title: data.aboutPerk1Title !== undefined && data.aboutPerk1Title !== '' ? data.aboutPerk1Title : DEFAULT_CONTACT_SETTINGS.aboutPerk1Title,
+          aboutPerk1Desc: data.aboutPerk1Desc !== undefined && data.aboutPerk1Desc !== '' ? data.aboutPerk1Desc : DEFAULT_CONTACT_SETTINGS.aboutPerk1Desc,
+          aboutPerk2Title: data.aboutPerk2Title !== undefined && data.aboutPerk2Title !== '' ? data.aboutPerk2Title : DEFAULT_CONTACT_SETTINGS.aboutPerk2Title,
+          aboutPerk2Desc: data.aboutPerk2Desc !== undefined && data.aboutPerk2Desc !== '' ? data.aboutPerk2Desc : DEFAULT_CONTACT_SETTINGS.aboutPerk2Desc,
+          showroomTitle: data.showroomTitle !== undefined && data.showroomTitle !== '' ? data.showroomTitle : DEFAULT_CONTACT_SETTINGS.showroomTitle,
         });
       } else {
         callback(DEFAULT_CONTACT_SETTINGS);
@@ -779,9 +821,14 @@ export function subscribeToStoreSettings(callback: (settings: StoreSettings) => 
         const data = docSnap.data();
         callback({
           name: data.name !== undefined ? data.name : DEFAULT_STORE_SETTINGS.name,
+          tagline: data.tagline !== undefined ? data.tagline : DEFAULT_STORE_SETTINGS.tagline,
           logo: data.logo !== undefined ? data.logo : DEFAULT_STORE_SETTINGS.logo,
           favicon: data.favicon !== undefined ? data.favicon : DEFAULT_STORE_SETTINGS.favicon,
           hours: data.hours !== undefined ? data.hours : DEFAULT_STORE_SETTINGS.hours,
+          address: data.address !== undefined ? data.address : '',
+          phone: data.phone !== undefined ? data.phone : '',
+          hotline: data.hotline !== undefined ? data.hotline : '',
+          email: data.email !== undefined ? data.email : '',
           currency: data.currency !== undefined ? data.currency : DEFAULT_STORE_SETTINGS.currency,
           language: data.language !== undefined ? data.language : DEFAULT_STORE_SETTINGS.language,
           loginEnabled: data.loginEnabled !== false,
@@ -790,6 +837,9 @@ export function subscribeToStoreSettings(callback: (settings: StoreSettings) => 
           cultivationGuideEnabled: data.cultivationGuideEnabled !== false,
           cultivationGuideTitle: data.cultivationGuideTitle || DEFAULT_STORE_SETTINGS.cultivationGuideTitle,
           defaultCultivationGuide: data.defaultCultivationGuide !== undefined ? data.defaultCultivationGuide : DEFAULT_CULTIVATION_GUIDE,
+          invoiceSubtitle: data.invoiceSubtitle !== undefined ? data.invoiceSubtitle : '',
+          invoiceNote: data.invoiceNote !== undefined ? data.invoiceNote : '',
+          invoiceFooterMsg: data.invoiceFooterMsg !== undefined ? data.invoiceFooterMsg : '',
         });
       } else {
         callback(DEFAULT_STORE_SETTINGS);
@@ -1006,11 +1056,17 @@ export async function updateProductFirebase(id: string, data: Partial<Product>) 
 // Save order to Firestore
 export async function saveOrderFirebase(order: OrderDetails) {
   const cleanOrder: Record<string, any> = {
-    orderId: order.orderId || ('SHB-' + Math.floor(100000 + Math.random() * 900000)),
+    orderId: order.orderId || ('SS-' + Math.floor(100000 + Math.random() * 900000)),
     customerName: order.customerName || '',
     phone: order.phone || '',
+    phone2: order.phone2 || '',
     address: order.address || '',
     district: order.district || '',
+    thana: order.thana || '',
+    union: order.union || '',
+    village: order.village || '',
+    landmark: order.landmark || '',
+    note: order.note || (order as any).customerNote || '',
     items: order.items || [],
     subtotal: Number(order.subtotal || 0),
     discount: Number(order.discount || 0),
