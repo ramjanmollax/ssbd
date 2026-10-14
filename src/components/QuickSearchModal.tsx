@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Search, X, ShoppingCart, Star, Sparkles, Clock } from 'lucide-react';
 import { Product } from '../types';
+import { getOptimizedImageUrl } from '../utils/imageUtils';
 
 interface QuickSearchModalProps {
   isOpen: boolean;
@@ -110,7 +111,7 @@ export const QuickSearchModal: React.FC<QuickSearchModalProps> = ({
                   <div className="w-12 h-12 rounded-xl bg-emerald-50/50 flex items-center justify-center shrink-0 overflow-hidden border border-emerald-100/80">
                     {product.image && product.image.trim() !== '' ? (
                       <img
-                        src={product.image}
+                        src={getOptimizedImageUrl(product.image)}
                         alt={product.name}
                         className="w-full h-full object-cover transition-opacity duration-300"
                         onLoad={(e) => (e.currentTarget.style.opacity = '1')}

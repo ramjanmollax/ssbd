@@ -14,6 +14,7 @@ import {
   Leaf
 } from 'lucide-react';
 import { CartItem, OrderDetails, Coupon } from '../types';
+import { getOptimizedImageUrl } from '../utils/imageUtils';
 import {
   subscribeToDeliverySettings,
   subscribeToShippingZones,
@@ -502,7 +503,13 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                     >
                       <div className="w-11 h-11 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-xl shrink-0 overflow-hidden">
                         {item.product.image ? (
-                          <img src={item.product.image} alt={item.product.name} className="w-full h-full object-cover" />
+                          <img
+                            src={getOptimizedImageUrl(item.product.image)}
+                            alt={item.product.name}
+                            className="w-full h-full object-cover"
+                            loading="lazy"
+                            decoding="async"
+                          />
                         ) : (
                           item.product.imageEmoji
                         )}

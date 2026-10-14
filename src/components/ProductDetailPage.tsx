@@ -28,6 +28,7 @@ import {
   DEFAULT_CULTIVATION_GUIDE,
 } from '../lib/firestoreProducts';
 import { compressImageFile, preloadImage, trackViewContent } from '../lib/utils';
+import { getOptimizedImageUrl } from '../utils/imageUtils';
 
 
 // Expandable Description Component
@@ -360,9 +361,8 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
   };
 
   const galleryList = useMemo(() => {
-    if (product.images && product.images.length > 0) return product.images;
-    if (product.image) return [product.image];
-    return [];
+    const list = product.images && product.images.length > 0 ? product.images : product.image ? [product.image] : [];
+    return list.map((url) => getOptimizedImageUrl(url));
   }, [product.images, product.image]);
 
   // Preload all gallery images in browser cache for zero-delay instant switching

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192">
+  <rect width="192" height="192" rx="48" fill="#065f46"/>
+  <!-- Sprout Icon -->
+  <path d="M96 145 V 80" stroke="#a7f3d0" stroke-width="12" stroke-linecap="round"/>
+  <path d="M96 95 C 65 70, 45 80, 52 110 C 68 120, 90 108, 96 95 Z" fill="#34d399"/>
+  <path d="M96 85 C 127 60, 147 70, 140 100 C 124 110, 102 98, 96 85 Z" fill="#10b981"/>
+  <!-- Notification badge -->
+  <circle cx="145" cy="45" r="18" fill="#ef4444"/>
+</svg>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Category } from '../types';
+import { getOptimizedImageUrl } from '../utils/imageUtils';
 
 interface CategoriesProps {
   categories?: Category[];
@@ -119,7 +120,7 @@ const CategoryItem: React.FC<{
     if (cat.image && !imgError) {
       return (
         <img
-          src={cat.image}
+          src={getOptimizedImageUrl(cat.image)}
           alt={cat.name}
           referrerPolicy="no-referrer"
           className="w-full h-full object-contain"

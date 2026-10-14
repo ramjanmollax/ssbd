@@ -180,8 +180,15 @@ export default function App() {
     ? 'shipping'
     : 'privacy';
 
-  // Products State (Real-time synced with Firebase Firestore)
-  const [productsList, setProductsList] = useState<Product[]>(INITIAL_PRODUCTS_DATA);
+  // Products State (Real-time synced with Firebase Firestore & Cached)
+  const [productsList, setProductsList] = useState<Product[]>(() => {
+    try {
+      const saved = safeStorage.getItem('ssseed_cached_products') || safeStorage.getItem('seedhaven_cached_products');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
 
   // Active Product derived from route parameter
   const activeProduct = useMemo(() => {
@@ -191,8 +198,22 @@ export default function App() {
       null
     );
   }, [routeProductId, productsList]);
-  const [categoriesList, setCategoriesList] = useState<Category[]>([]);
-  const [bannersList, setBannersList] = useState<Banner[]>([]);
+  const [categoriesList, setCategoriesList] = useState<Category[]>(() => {
+    try {
+      const saved = safeStorage.getItem('ssseed_cached_categories') || safeStorage.getItem('seedhaven_cached_categories');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+  const [bannersList, setBannersList] = useState<Banner[]>(() => {
+    try {
+      const saved = safeStorage.getItem('ssseed_cached_banners') || safeStorage.getItem('seedhaven_cached_banners');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
   const [footerSettings, setFooterSettings] = useState<FooterSettings>(() => getCachedSettings('footer', {}));
   const [homepageSettings, setHomepageSettings] = useState<HomepageSettings>(() => getCachedSettings('homepage', DEFAULT_HOMEPAGE_SETTINGS));
   const [noticeSettings, setNoticeSettings] = useState<NoticeSettings>(() => getCachedSettings('notice', DEFAULT_NOTICE_SETTINGS));
@@ -201,7 +222,14 @@ export default function App() {
   const [seoSettings, setSeoSettings] = useState<SeoSettings>(() => getCachedSettings('seo', DEFAULT_SEO_SETTINGS));
   const [menuSettings, setMenuSettings] = useState<MenuSettings>(() => getCachedSettings('menu', DEFAULT_MENU_SETTINGS));
   const [integrationsSettings, setIntegrationsSettings] = useState<IntegrationsSettings>(DEFAULT_INTEGRATIONS_SETTINGS);
-  const [couponsList, setCouponsList] = useState<Coupon[]>([]);
+  const [couponsList, setCouponsList] = useState<Coupon[]>(() => {
+    try {
+      const saved = safeStorage.getItem('ssseed_cached_coupons') || safeStorage.getItem('seedhaven_cached_coupons');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
   const [ordersList, setOrdersList] = useState<OrderDetails[]>([]);
   const [isLoadingProducts, setIsLoadingProducts] = useState<boolean>(true);
   const [isLoadingOrders, setIsLoadingOrders] = useState<boolean>(true);
@@ -334,24 +362,30 @@ export default function App() {
     const unsubProd = subscribeToProducts((products) => {
       if (products && products.length > 0) {
         setProductsList(products);
+        try { safeStorage.setItem('ssseed_cached_products', JSON.stringify(products)); } catch {}
       } else {
-        setProductsList(INITIAL_PRODUCTS_DATA);
-        seedInitialProducts(INITIAL_PRODUCTS_DATA);
+        setProductsList([]);
       }
       setIsLoadingProducts(false);
     });
 
     const unsubCat = subscribeToCategories((cats) => {
-      setCategoriesList(cats || []);
+      const list = cats || [];
+      setCategoriesList(list);
+      try { safeStorage.setItem('ssseed_cached_categories', JSON.stringify(list)); } catch {}
       setIsLoadingCategories(false);
     });
 
     const unsubBanners = subscribeToBanners((bns) => {
-      setBannersList(bns || []);
+      const list = bns || [];
+      setBannersList(list);
+      try { safeStorage.setItem('ssseed_cached_banners', JSON.stringify(list)); } catch {}
     });
 
     const unsubCoupons = subscribeToCoupons((coupons) => {
-      setCouponsList(coupons || []);
+      const list = coupons || [];
+      setCouponsList(list);
+      try { safeStorage.setItem('ssseed_cached_coupons', JSON.stringify(list)); } catch {}
     });
 
     const unsubOrders = subscribeToOrders((orders) => {
@@ -1233,10 +1267,11 @@ export default function App() {
                                 </button>
                               </div>
                               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 md:gap-5">
-                                {catProducts.map((product) => (
+                                {catProducts.slice(0, 10).map((product, idx) => (
                                   <ProductCard
                                     key={product.id}
                                     product={product}
+                                    priority={idx < 4}
                                     onAddToCart={(p) => handleAddToCart(p, 1)}
                                     onDirectCheckout={(p) => {
                                       handleAddToCart(p, 1);
@@ -1260,10 +1295,11 @@ export default function App() {
                       </div>
                     ) : (
                       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 md:gap-5">
-                        {filteredProducts.slice(0, productLimit).map((product) => (
+                        {filteredProducts.slice(0, productLimit).map((product, idx) => (
                           <ProductCard
                             key={product.id}
                             product={product}
+                            priority={idx < 6}
                             onAddToCart={(p) => handleAddToCart(p, 1)}
                             onDirectCheckout={(p) => {
                               handleAddToCart(p, 1);

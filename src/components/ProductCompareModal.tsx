@@ -1,6 +1,7 @@
 import React from 'react';
 import { X, Scale, ShoppingCart, Trash2, CheckCircle2 } from 'lucide-react';
 import { Product } from '../types';
+import { getOptimizedImageUrl } from '../utils/imageUtils';
 
 interface ProductCompareModalProps {
   isOpen: boolean;
@@ -84,7 +85,13 @@ export const ProductCompareModal: React.FC<ProductCompareModalProps> = ({
                         </button>
                         <div className="w-20 h-20 mx-auto mb-2 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 flex items-center justify-center">
                           {p.image ? (
-                            <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
+                            <img
+                              src={getOptimizedImageUrl(p.image)}
+                              alt={p.name}
+                              loading="lazy"
+                              decoding="async"
+                              className="w-full h-full object-cover"
+                            />
                           ) : (
                             <span className="text-3xl">{p.imageEmoji || '🌱'}</span>
                           )}

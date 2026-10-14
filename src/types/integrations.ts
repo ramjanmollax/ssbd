@@ -193,7 +193,7 @@ export const DEFAULT_INTEGRATIONS_SETTINGS: IntegrationsSettings = {
     schemaEnabled: true,
     schemaOrganizationName: 'Ss Seed Shop',
     schemaLogoUrl: '',
-    schemaAddress: 'দেবীগঞ্জ, পঞ্চগড়, বাংলাদেশ',
+    schemaAddress: 'ঢাকা, বাংলাদেশ',
     schemaPhone: '01410136900',
     schemaIncludeProducts: true,
     schemaIncludeBreadcrumbs: true,

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ShoppingCart, ShoppingBag, Repeat, Heart, Crown, Zap, ThumbsUp, Gift, Scale, Check, Flame, Sparkles } from 'lucide-react';
 import { Product, OrderDetails } from '../types';
+import { getOptimizedImageUrl, getFallbackImageUrl } from '../utils/imageUtils';
 
 interface ProductCardProps {
   product: Product;
@@ -15,6 +16,7 @@ interface ProductCardProps {
   ordersList?: OrderDetails[];
   userRating?: number;
   onRateProduct?: (productId: string, rating: number) => void;
+  priority?: boolean;
 }
 
 export const ProductCardSkeleton: React.FC = () => {
@@ -46,7 +48,34 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   onToggleWishlist,
   isWishlisted,
   ordersList = [],
+  priority = false,
 }) => {
+  const initialImageUrl = product.image ? getOptimizedImageUrl(product.image) : '';
+  const [currentImgSrc, setCurrentImgSrc] = useState<string>(initialImageUrl);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [hasError, setHasError] = useState<boolean>(false);
+
+  // Sync if product image changes
+  React.useEffect(() => {
+    const nextUrl = product.image ? getOptimizedImageUrl(product.image) : '';
+    setCurrentImgSrc(nextUrl);
+    setIsLoaded(false);
+    setHasError(false);
+  }, [product.image]);
+
+  const handleImageError = () => {
+    // If proxy URL failed, fallback to original direct URL
+    if (currentImgSrc.includes('/api/image-proxy') && product.image) {
+      const fallback = getFallbackImageUrl(currentImgSrc, product.image);
+      if (fallback && fallback !== currentImgSrc) {
+        setCurrentImgSrc(fallback);
+        return;
+      }
+    }
+    setHasError(true);
+    setIsLoaded(true);
+  };
+
   const handleView = () => {
     if (onSelectProduct) {
       onSelectProduct(product);
@@ -61,10 +90,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       : 0;
 
   const handlePreload = () => {
-    if (product.image) {
+    if (currentImgSrc && !isLoaded) {
       const img = new Image();
       img.decoding = 'async';
-      img.src = product.image;
+      img.src = currentImgSrc;
     }
   };
 
@@ -86,21 +115,33 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     <article
       onMouseEnter={handlePreload}
       onTouchStart={handlePreload}
-      className="group bg-white rounded-2xl overflow-hidden border border-slate-200/90 shadow-2xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full justify-between select-none"
+      className="group bg-white rounded-2xl overflow-hidden border border-slate-200/90 shadow-2xs card-hover-lift flex flex-col h-full justify-between select-none"
     >
       {/* Product Image Container */}
       <div
         onClick={handleView}
         className="relative aspect-square overflow-hidden bg-[#f4f7f4] cursor-pointer group/img"
       >
-        {product.image ? (
+        {/* Shimmer skeleton while image is loading */}
+        {!isLoaded && !hasError && (
+          <div className="absolute inset-0 z-0 bg-gradient-to-tr from-slate-100 via-emerald-50/50 to-slate-200 animate-pulse flex items-center justify-center">
+            <span className="text-2xl opacity-40 select-none">{product.imageEmoji || '🌱'}</span>
+          </div>
+        )}
+
+        {currentImgSrc && !hasError ? (
           <img
-            src={product.image}
+            src={currentImgSrc}
             alt={product.name}
-            className="w-full h-full object-cover group-hover/img:scale-108 transition-transform duration-500 ease-out"
-            loading="lazy"
+            className={`w-full h-full object-cover group-hover/img:scale-108 transition-all duration-500 ease-out ${
+              isLoaded ? 'opacity-100' : 'opacity-0'
+            }`}
+            loading={priority ? 'eager' : 'lazy'}
+            fetchPriority={priority ? 'high' : 'auto'}
             decoding="async"
             referrerPolicy="no-referrer"
+            onLoad={() => setIsLoaded(true)}
+            onError={handleImageError}
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-5xl bg-emerald-50/60">
@@ -114,8 +155,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             -{discountPercent}% ছাড়
           </span>
         )}
-
-
       </div>
 
       {/* Card Content Details */}

@@ -2,7 +2,36 @@
 <html lang="bn">
   <head>
     <meta charset="UTF-8" />
+    <script>
+      (function() {
+        try {
+          var origFetch = window.fetch ? window.fetch.bind(window) : null;
+          var customFetch = origFetch;
+          var descriptor = {
+            get: function() {
+              return customFetch || origFetch;
+            },
+            set: function(val) {
+              customFetch = typeof val === 'function' && origFetch ? val.bind(window) : val;
+            },
+            configurable: true,
+            enumerable: true
+          };
+          try {
+            Object.defineProperty(window, 'fetch', descriptor);
+          } catch (e1) {
+            try {
+              if (window.Window && window.Window.prototype) {
+                Object.defineProperty(window.Window.prototype, 'fetch', descriptor);
+              }
+            } catch (e2) {}
+          }
+        } catch (err) {}
+      })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://abseed.com.bd" crossorigin />
+    <link rel="dns-prefetch" href="https://abseed.com.bd" />
     <meta name="google-site-verification" content="3DcDb8OCOEZ7Fhr13dOYLeEq2RkdLNXfd_0V5qA5Qx0" />
     <meta name="google-site-verification" content="googled0dc2aad1b47a15f" />
     <title>Ss Seed Shop - মানসম্মত বীজ ও কৃষি সরঞ্জামের নির্ভরযোগ্য অনলাইন শপ</title>
@@ -32,13 +61,13 @@
       "alternateName": ["Ss Seed", "Ss Seed Shop Bangladesh", "ssseedshop"],
       "url": "https://ssseedshop.vercel.app",
       "description": "Ss Seed Shop - প্রিমিয়াম কোয়ালিটির সবজি, ফুল, ফল ও অর্গানিক বীজের নির্ভরযোগ্য অনলাইন শপ। সারা বাংলাদেশে ক্যাশ অন ডেলিভারি।",
-      "telephone": "09617443377",
+      "telephone": "01915957187",
       "email": "support@ssseedshop.com",
       "priceRange": "৳",
       "address": {
         "@type": "PostalAddress",
-        "addressLocality": "Debiganj",
-        "addressRegion": "Panchagarh",
+        "addressLocality": "Dhaka",
+        "addressRegion": "Dhaka",
         "addressCountry": "BD"
       },
       "potentialAction": {

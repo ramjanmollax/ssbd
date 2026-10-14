@@ -1,6 +1,7 @@
 import React from 'react';
 import { X, Heart, ShoppingCart, Trash2, ArrowRight, Sprout } from 'lucide-react';
 import { Product } from '../types';
+import { getOptimizedImageUrl } from '../utils/imageUtils';
 
 interface WishlistModalProps {
   isOpen: boolean;
@@ -110,8 +111,10 @@ export const WishlistModal: React.FC<WishlistModalProps> = ({
                   >
                     {product.image ? (
                       <img
-                        src={product.image}
+                        src={getOptimizedImageUrl(product.image)}
                         alt={product.name}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                       />
                     ) : (

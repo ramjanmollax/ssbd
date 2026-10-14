@@ -52,7 +52,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
   const storeTagline = settings?.tagline || storeSettings?.tagline || footerSettings?.tagline || 'মানসম্মত ও খাঁটি বীজ সরবরাহকারী';
 
   // Contact details from settings or defaults
-  const hotline = settings?.hotline || storeSettings?.hotline || footerSettings?.hotline || '09617443377';
+  const hotline = settings?.hotline || storeSettings?.hotline || footerSettings?.hotline || '01915957187';
   const phoneNum = settings?.phone || storeSettings?.phone || footerSettings?.phone || '01410136900';
   const whatsapp = settings?.whatsapp || storeSettings?.phone || footerSettings?.whatsapp || '01410136900';
   const email = settings?.email || storeSettings?.email || footerSettings?.email || 'support@ssseedshop.com';

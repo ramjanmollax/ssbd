@@ -1,6 +1,7 @@
 import express from 'express';
 import path from 'path';
 import fs from 'fs';
+import crypto from 'crypto';
 
 const app = express();
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
@@ -55,6 +56,170 @@ try {
   console.warn('UPLOADS_DIR initialization notice:', e);
 }
 app.use('/uploads', express.static(UPLOADS_DIR));
+
+// High-speed Disk & Memory Image Cache System
+const IMAGE_CACHE_DIR = path.join(DATA_DIR, 'image-cache');
+try {
+  if (!fs.existsSync(IMAGE_CACHE_DIR)) {
+    fs.mkdirSync(IMAGE_CACHE_DIR, { recursive: true });
+  }
+} catch (e) {
+  console.warn('IMAGE_CACHE_DIR initialization notice:', e);
+}
+
+// In-memory LRU-like quick cache (up to 150 images)
+const memoryImageCache = new Map<string, { buffer: Buffer; contentType: string }>();
+const MAX_MEMORY_IMAGES = 150;
+
+// High-speed Image Proxy & Caching Endpoint
+app.get('/api/image-proxy', async (req, res) => {
+  const imageUrl = req.query.url as string;
+  if (!imageUrl || typeof imageUrl !== 'string') {
+    return res.status(400).send('Missing url parameter');
+  }
+
+  // Verify protocol
+  if (!imageUrl.startsWith('http://') && !imageUrl.startsWith('https://')) {
+    return res.status(400).send('Invalid url protocol');
+  }
+
+  const cacheKey = crypto.createHash('sha256').update(imageUrl).digest('hex');
+  const cacheFilePath = path.join(IMAGE_CACHE_DIR, `${cacheKey}.cache`);
+  const metaFilePath = path.join(IMAGE_CACHE_DIR, `${cacheKey}.json`);
+
+  // Performance headers: allow long-term caching in browser and service worker
+  res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+  res.setHeader('Access-Control-Allow-Origin', '*');
+
+  // 1. Check Memory Cache (< 1ms latency)
+  const memCached = memoryImageCache.get(cacheKey);
+  if (memCached) {
+    res.setHeader('Content-Type', memCached.contentType || 'image/webp');
+    res.setHeader('X-Cache', 'HIT-MEMORY');
+    return res.end(memCached.buffer);
+  }
+
+  // 2. Check Disk Cache (< 5ms latency)
+  if (fs.existsSync(cacheFilePath) && fs.existsSync(metaFilePath)) {
+    try {
+      const meta = JSON.parse(fs.readFileSync(metaFilePath, 'utf-8'));
+      const buffer = fs.readFileSync(cacheFilePath);
+      if (memoryImageCache.size < MAX_MEMORY_IMAGES) {
+        memoryImageCache.set(cacheKey, { buffer, contentType: meta.contentType || 'image/webp' });
+      }
+      res.setHeader('Content-Type', meta.contentType || 'image/webp');
+      res.setHeader('X-Cache', 'HIT-DISK');
+      return res.end(buffer);
+    } catch (e) {
+      // Proceed to remote fetch
+    }
+  }
+
+  // 3. Fetch from remote CDN origin
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 10000);
+    const remoteRes = await fetch(imageUrl, {
+      signal: controller.signal,
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8',
+        'Referer': new URL(imageUrl).origin + '/',
+      },
+    });
+    clearTimeout(timer);
+
+    if (!remoteRes.ok) {
+      return res.redirect(imageUrl);
+    }
+
+    const contentType = remoteRes.headers.get('content-type') || 'image/webp';
+    const arrayBuffer = await remoteRes.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+
+    // Save to disk
+    try {
+      fs.writeFileSync(cacheFilePath, buffer);
+      fs.writeFileSync(metaFilePath, JSON.stringify({ contentType, url: imageUrl, cachedAt: Date.now() }));
+    } catch (err) {
+      console.warn('Failed to persist image cache to disk:', err);
+    }
+
+    // Save to memory
+    if (memoryImageCache.size < MAX_MEMORY_IMAGES) {
+      memoryImageCache.set(cacheKey, { buffer, contentType });
+    }
+
+    res.setHeader('Content-Type', contentType);
+    res.setHeader('X-Cache', 'MISS');
+    return res.end(buffer);
+  } catch (err) {
+    // If proxy failed, redirect to original URL directly
+    return res.redirect(imageUrl);
+  }
+});
+
+// Background pre-warmer: fetches & caches products images in background so users experience instant loads
+function prewarmProductImageCache() {
+  setTimeout(async () => {
+    try {
+      let urls: string[] = [];
+      const prodPath = path.join(DATA_DIR, 'products.json');
+      if (fs.existsSync(prodPath)) {
+        try {
+          const prods = JSON.parse(fs.readFileSync(prodPath, 'utf-8'));
+          if (Array.isArray(prods)) {
+            urls = prods
+              .map((p: any) => p.image)
+              .filter((u: any) => typeof u === 'string' && u.startsWith('http'));
+          }
+        } catch {}
+      }
+
+      if (urls.length === 0) {
+        const initialProdPath = path.join(process.cwd(), 'src', 'data', 'initialProducts.ts');
+        if (fs.existsSync(initialProdPath)) {
+          const content = fs.readFileSync(initialProdPath, 'utf-8');
+          const matches = content.match(/https?:\/\/[^"'\s\\]+\.(webp|png|jpe?g)/g) || [];
+          urls = Array.from(new Set(matches));
+        }
+      }
+
+      for (const imgUrl of urls.slice(0, 150)) {
+        const cacheKey = crypto.createHash('sha256').update(imgUrl).digest('hex');
+        const cacheFilePath = path.join(IMAGE_CACHE_DIR, `${cacheKey}.cache`);
+        if (!fs.existsSync(cacheFilePath)) {
+          try {
+            const controller = new AbortController();
+            const timer = setTimeout(() => controller.abort(), 8000);
+            const r = await fetch(imgUrl, {
+              signal: controller.signal,
+              headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Accept': 'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8',
+                'Referer': new URL(imgUrl).origin + '/',
+              },
+            });
+            clearTimeout(timer);
+            if (r.ok) {
+              const contentType = r.headers.get('content-type') || 'image/webp';
+              const buffer = Buffer.from(await r.arrayBuffer());
+              fs.writeFileSync(cacheFilePath, buffer);
+              fs.writeFileSync(path.join(IMAGE_CACHE_DIR, `${cacheKey}.json`), JSON.stringify({ contentType, url: imgUrl, cachedAt: Date.now() }));
+              if (memoryImageCache.size < MAX_MEMORY_IMAGES) {
+                memoryImageCache.set(cacheKey, { buffer, contentType });
+              }
+            }
+          } catch {}
+          await new Promise((res) => setTimeout(res, 80));
+        }
+      }
+    } catch (e) {
+      console.warn('[Image Cache] Background pre-warm notice:', e);
+    }
+  }, 2000);
+}
+prewarmProductImageCache();
 
 const ORDERS_PATH = path.join(DATA_DIR, 'orders.json');
 

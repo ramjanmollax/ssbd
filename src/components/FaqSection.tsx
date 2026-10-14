@@ -18,7 +18,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ settings, contactSetting
   };
 
   const phone = settings?.phone || contactSettings?.phone || '01410136900';
-  const hotline = settings?.hotline || contactSettings?.hotline || '09617443377';
+  const hotline = settings?.hotline || contactSettings?.hotline || '01915957187';
   const faqTitle = settings?.faqTitle || 'সচরাচর জিজ্ঞাসিত প্রশ্নোত্তর (FAQ)';
   const faqSubtitle = settings?.faqSubtitle || 'সহজ সমাধান ও নির্দেশিকা';
 
