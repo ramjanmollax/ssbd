@@ -107,19 +107,13 @@ export const QuickSearchModal: React.FC<QuickSearchModalProps> = ({
                 className="flex items-center justify-between p-3 rounded-2xl border border-[#eaeee4] hover:border-[#176b38] hover:bg-[#f7f9f2] transition-all cursor-pointer group"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-emerald-50/50 flex items-center justify-center shrink-0 overflow-hidden border border-emerald-100/80">
-                    {product.image && product.image.trim() !== '' ? (
+                  <div className="w-12 h-12 rounded-xl bg-[#f4f7f4] flex items-center justify-center shrink-0 overflow-hidden border border-[#eaeee4]">
+                    {product.image ? (
                       <img
                         src={product.image}
                         alt={product.name}
-                        className="w-full h-full object-cover transition-opacity duration-300"
-                        onLoad={(e) => (e.currentTarget.style.opacity = '1')}
-                        style={{ opacity: 0 }}
+                        className="w-full h-full object-cover"
                         loading="lazy"
-                        onError={(e) => {
-                          e.currentTarget.style.display = 'none';
-                          e.currentTarget.parentElement!.innerHTML = `<span class="text-3xl">${product.imageEmoji || '🌱'}</span>`;
-                        }}
                       />
                     ) : (
                       <span className="text-3xl">{product.imageEmoji || '🌱'}</span>

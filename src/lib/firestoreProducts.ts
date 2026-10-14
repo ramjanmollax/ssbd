@@ -127,9 +127,9 @@ export interface FooterSettings {
 }
 
 export const DEFAULT_FOOTER_SETTINGS: FooterSettings = {
-  brandName: 'Seed Haven BD',
+  brandName: 'Ss Seed Shop',
   tagline: 'বিশুদ্ধ বীজ, সমৃদ্ধ ফসল',
-  bio: 'নিজের ছাদবাগানে টাটকা, স্বাস্থ্যকর ও বিষমুক্ত সবজি ফলান। Seed Haven BD আপনার সবুজ স্বপ্নের নির্ভরযোগ্য সঙ্গী।',
+  bio: 'নিজের ছাদবাগানে টাটকা, স্বাস্থ্যকর ও বিষমুক্ত সবজি ফলান। Ss Seed Shop আপনার সবুজ স্বপ্নের নির্ভরযোগ্য সঙ্গী।',
   footerLogoUrl: '',
   footerBgColor: '#082f1e',
   footerFaqBgColor: '#f4f8f3',
@@ -140,7 +140,7 @@ export const DEFAULT_FOOTER_SETTINGS: FooterSettings = {
   email: 'support@seedhavenbd.com',
   address: 'দেবীগঞ্জ, পঞ্চগড় | সারা দেশে ক্যাশ অন ডেলিভারি',
   businessHours: 'সকাল ৯টা - রাত ৮টা',
-  copyright: '© 2026 Seed Haven BD | সর্বস্বত্ব সংরক্ষিত।',
+  copyright: '© 2026 Ss Seed Shop | সর্বস্বত্ব সংরক্ষিত।',
   footerEnabled: true,
   facebook: 'https://facebook.com/seedhavenbd',
   youtube: 'https://youtube.com/@seedhavenbd',
@@ -285,8 +285,6 @@ export interface MenuSettings {
   menuPolicyEnabled?: boolean;
   menuAdminLinkEnabled?: boolean;
   menuHelplineEnabled?: boolean;
-  bottomNavEnabled?: boolean;
-  menuBarEnabled?: boolean;
 }
 
 export const DEFAULT_MENU_SETTINGS: MenuSettings = {
@@ -305,8 +303,6 @@ export const DEFAULT_MENU_SETTINGS: MenuSettings = {
   menuPolicyEnabled: true,
   menuAdminLinkEnabled: true,
   menuHelplineEnabled: true,
-  bottomNavEnabled: true,
-  menuBarEnabled: true,
 };
 
 // Default Homepage Settings
@@ -316,9 +312,9 @@ export const DEFAULT_HOMEPAGE_SETTINGS: HomepageSettings = {
   topBarHours: 'সকাল ৯টা - রাত ৮টা',
   topBarDelivery: 'সারা বাংলাদেশে ক্যাশ অন ডেলিভারি',
   topBarGuarantee: '১০০% খাঁটি ও অঙ্কুরোদগম গ্যারান্টি',
-  topBarTagline: 'Seed Haven BD - বিশুদ্ধ বীজ ও গার্ডেন শপ',
+  topBarTagline: 'Ss Seed Shop - বিশুদ্ধ বীজ ও গার্ডেন শপ',
   marqueeEnabled: false,
-  marqueeText: '🌾 Seed Haven BD - বিশুদ্ধ বীজ ও সুস্থ চারা দিয়ে গড়ে তুলুন আপনার স্বপ্নের ছাদবাগান! সারা দেশে ক্যাশ অন ডেলিভারি সুবিধা ও ১০০% অঙ্কুরোদ্গম নিশ্চয়তা।',
+  marqueeText: '🌾 Ss Seed Shop - বিশুদ্ধ বীজ ও সুস্থ চারা দিয়ে গড়ে তুলুন আপনার স্বপ্নের ছাদবাগান! সারা দেশে ক্যাশ অন ডেলিভারি সুবিধা ও ১০০% অঙ্কুরোদ্গম নিশ্চয়তা।',
   marqueeSpeed: 'normal',
   marqueeBgColor: '#07361a',
   marqueeTextColor: '#ffffff',
@@ -378,17 +374,17 @@ export const DEFAULT_CONTACT_SETTINGS: ContactSettings = {
 
 // Default Policy Settings
 export const DEFAULT_POLICY_SETTINGS: PolicySettings = {
-  privacy: `Seed Haven BD-তে আপনার ব্যক্তিগত তথ্যের নিরাপত্তা আমাদের কাছে অত্যন্ত গুরুত্বপূর্ণ।\n\n১. তথ্য সংগ্রহ: অর্ডার প্রক্রিয়াকরণের জন্য আপনার নাম, ঠিকানা, মোবাইল নম্বর ও ইমেইল সংরক্ষণ করা হয়।\n২. তথ্যের ব্যবহার: শুধুমাত্র পণ্য পৌঁছে দেওয়া এবং অর্ডার সংক্রান্ত যোগাযোগের জন্য আপনার তথ্য ব্যবহৃত হয়।\n৩. তথ্য গোপনীয়তা: আমরা আপনার ব্যক্তিগত তথ্য কোনো তৃতীয় পক্ষের কাছে বিক্রি বা শেয়ার করি না।\n৪. ডাটা সিকিউরিটি: আপনার অর্ডারের তথ্য নিরাপদ ডাটাবেসে সুরক্ষিত রাখা হয়।`,
-  terms: `Seed Haven BD থেকে যেকোনো পণ্য ক্রয়ের পূর্বে নিম্নোক্ত শর্তাবলী ভালোভাবে পড়ে নিন:\n\n১. অর্ডার নিশ্চিতকরণ: ওয়েবসাইটে অর্ডার সম্পন্ন করার পর আমাদের প্রতিনিধি কল বা মেসেজের মাধ্যমে অর্ডার কনফার্ম করতে পারেন।\n২. মূল্য ও পেমেন্ট: প্রতিটি বীজের গায়ে বা ওয়েবসাইটে উল্লেখিত মূল্যই চূড়ান্ত। ক্যাশ অন ডেলিভারি বা বিকাশ/নগদ/রকেটে পেমেন্ট করা যাবে।\n৩. স্টক ও ডেলিভারি: সকল প্রোডাক্টের স্টক প্রতিনিয়ত আপডেট হয়। প্রাকৃতিক দুর্যোগ বা পার্সেল পরিবহনে বিলম্ব হলে কাস্টমারকে অবহিত করা হবে।\n৪. বীজের গুণমান: আমরা সর্বোচ্চ মানের বীজ সরবরাহ করে থাকি, তবে অঙ্কুরোদ্গম সম্পূর্ণ নির্ভর করে সঠিক মাটি, আলো, তাপমাত্রা ও পরিচর্যার ওপর।`,
+  privacy: `Ss Seed Shop-তে আপনার ব্যক্তিগত তথ্যের নিরাপত্তা আমাদের কাছে অত্যন্ত গুরুত্বপূর্ণ।\n\n১. তথ্য সংগ্রহ: অর্ডার প্রক্রিয়াকরণের জন্য আপনার নাম, ঠিকানা, মোবাইল নম্বর ও ইমেইল সংরক্ষণ করা হয়।\n২. তথ্যের ব্যবহার: শুধুমাত্র পণ্য পৌঁছে দেওয়া এবং অর্ডার সংক্রান্ত যোগাযোগের জন্য আপনার তথ্য ব্যবহৃত হয়।\n৩. তথ্য গোপনীয়তা: আমরা আপনার ব্যক্তিগত তথ্য কোনো তৃতীয় পক্ষের কাছে বিক্রি বা শেয়ার করি না।\n৪. ডাটা সিকিউরিটি: আপনার অর্ডারের তথ্য নিরাপদ ডাটাবেসে সুরক্ষিত রাখা হয়।`,
+  terms: `Ss Seed Shop থেকে যেকোনো পণ্য ক্রয়ের পূর্বে নিম্নোক্ত শর্তাবলী ভালোভাবে পড়ে নিন:\n\n১. অর্ডার নিশ্চিতকরণ: ওয়েবসাইটে অর্ডার সম্পন্ন করার পর আমাদের প্রতিনিধি কল বা মেসেজের মাধ্যমে অর্ডার কনফার্ম করতে পারেন।\n২. মূল্য ও পেমেন্ট: প্রতিটি বীজের গায়ে বা ওয়েবসাইটে উল্লেখিত মূল্যই চূড়ান্ত। ক্যাশ অন ডেলিভারি বা বিকাশ/নগদ/রকেটে পেমেন্ট করা যাবে।\n৩. স্টক ও ডেলিভারি: সকল প্রোডাক্টের স্টক প্রতিনিয়ত আপডেট হয়। প্রাকৃতিক দুর্যোগ বা পার্সেল পরিবহনে বিলম্ব হলে কাস্টমারকে অবহিত করা হবে।\n৪. বীজের গুণমান: আমরা সর্বোচ্চ মানের বীজ সরবরাহ করে থাকি, তবে অঙ্কুরোদ্গম সম্পূর্ণ নির্ভর করে সঠিক মাটি, আলো, তাপমাত্রা ও পরিচর্যার ওপর।`,
   refund: `গ্রাহক সন্তুষ্টি আমাদের মূল লক্ষ্য। পণ্য গ্রহণে কোনো ত্রুটি পরিলক্ষিত হলে আমাদের রিটার্ন পলিসি প্রযোজ্য হবে:\n\n১. রিটার্ন গ্রহণের সময়: পার্সেল হাতে পাওয়ার পর ডেলিভারি ম্যানের সামনেই প্যাকেট চেক করুন।\n২. ভুল বা ক্ষতিগ্রস্ত পণ্য: ভুল বীজ বা ক্ষতিগ্রস্ত পার্সেল পেলে সাথে সাথে ডেলিভারি ম্যানকে ফেরত দিন অথবা আমাদের হেল্পলাইনে কল করুন।\n৩. রিফান্ড প্রক্রিয়া: কোনো কারণে রিটার্নকৃত পণ্যের রিফান্ড প্রযোজ্য হলে ৩ থেকে ৭ কর্মদিবসের মধ্যে বিকাশ/নগদে টাকা ফেরত দেওয়া হবে।\n৪. শর্তাবলী: ব্যবহৃত বা কাস্টমার দ্বারা ক্ষতিগ্রস্ত পণ্যের ক্ষেত্রে রিটার্ন বা রিফান্ড প্রযোজ্য হবে না।`,
-  shipping: `Seed Haven BD সারা বাংলাদেশে বিশ্বস্ত কুরিয়ার সার্ভিসের মাধ্যমে হোম ডেলিভারি সুবিধা প্রদান করে:\n\n১. ডেলিভারি চার্জ: ঢাকা শহরের ভেতরে ডেলিভারি চার্জ ৮০ টাকা এবং ঢাকার বাইরে ১৫০ টাকা (অথবা নির্ধারিত ডেলিভারি ফি)।\n২. ডেলিভারি সময়: অর্ডার কনফার্ম হওয়ার পর সাধারণত ২ থেকে ৪ কার্যদিবসের মধ্যে ডেলিভারি সম্পন্ন হয়।\n৩. ট্র্যাকিং ও আপডেট: অর্ডার শিপ হওয়ার পর এসএমএস বা হোয়াটসঅ্যাপে ডেলিভারি আপডেট জানানো হবে।\n৪. ক্যাশ অন ডেলিভারি: কুরিয়ার ম্যানের থেকে পণ্য হাতে পেয়ে মূল্য পরিশোধ করার সুবিধা রয়েছে।`,
+  shipping: `Ss Seed Shop সারা বাংলাদেশে বিশ্বস্ত কুরিয়ার সার্ভিসের মাধ্যমে হোম ডেলিভারি সুবিধা প্রদান করে:\n\n১. ডেলিভারি চার্জ: ঢাকা শহরের ভেতরে ডেলিভারি চার্জ ৮০ টাকা এবং ঢাকার বাইরে ১৫০ টাকা (অথবা নির্ধারিত ডেলিভারি ফি)।\n২. ডেলিভারি সময়: অর্ডার কনফার্ম হওয়ার পর সাধারণত ২ থেকে ৪ কার্যদিবসের মধ্যে ডেলিভারি সম্পন্ন হয়।\n৩. ট্র্যাকিং ও আপডেট: অর্ডার শিপ হওয়ার পর এসএমএস বা হোয়াটসঅ্যাপে ডেলিভারি আপডেট জানানো হবে।\n৪. ক্যাশ অন ডেলিভারি: কুরিয়ার ম্যানের থেকে পণ্য হাতে পেয়ে মূল্য পরিশোধ করার সুবিধা রয়েছে।`,
 };
 
 // Default SEO Settings
 export const DEFAULT_SEO_SETTINGS: SeoSettings = {
-  siteTitle: 'Seed Haven BD - প্রিমিয়াম বীজ ও গার্ডেন শপ',
-  keywords: 'বীজ, হাইব্রিড বীজ, ফুলের বীজ, সবজির বীজ, বীজ দোকান, Seed Haven BD, gardening seeds Bangladesh',
-  description: 'সারা বাংলাদেশে প্রিমিয়াম কোয়ালিটির সবজি, ফুল, ফল ও অর্গানিক বীজ হোম ডেলিভারি পেতে Seed Haven BD থেকে অর্ডার করুন।',
+  siteTitle: 'Ss Seed Shop - প্রিমিয়াম বীজ ও গার্ডেন শপ',
+  keywords: 'বীজ, হাইব্রিড বীজ, ফুলের বীজ, সবজির বীজ, বীজ দোকান, Ss Seed Shop, gardening seeds Bangladesh',
+  description: 'সারা বাংলাদেশে প্রিমিয়াম কোয়ালিটির সবজি, ফুল, ফল ও অর্গানিক বীজ হোম ডেলিভারি পেতে Ss Seed Shop থেকে অর্ডার করুন।',
   googleVerification: '',
   facebookPixel: '',
   ogImage: 'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&q=80&w=1000',
@@ -413,7 +409,7 @@ export const DEFAULT_CULTIVATION_GUIDE = `১ - হালকা রোদে র
 
 // Default Store Settings
 export const DEFAULT_STORE_SETTINGS: StoreSettings = {
-  name: 'Seed Haven BD',
+  name: 'Ss Seed Shop',
   logo: '',
   favicon: '',
   hours: 'সকাল ৯:০০ - রাত ১০:০০ (প্রতিদিন)',
@@ -503,17 +499,17 @@ export function subscribeToFooterSettings(callback: (settings: FooterSettings) =
         const data = docSnap.data();
         let brandName = data.brandName;
         if (!brandName || brandName.includes('বিচিত্রা') || brandName.toLowerCase().includes('bichitra')) {
-          brandName = 'Seed Haven BD';
+          brandName = 'Ss Seed Shop';
         }
 
         let copyright = data.copyright;
         if (copyright && copyright.includes('বিচিত্রা')) {
-          copyright = copyright.replace(/বীজ\s*বিচিত্রা/g, 'Seed Haven BD');
+          copyright = copyright.replace(/বীজ\s*বিচিত্রা/g, 'Ss Seed Shop');
         }
 
         let bio = data.bio;
         if (bio && bio.includes('বিচিত্রা')) {
-          bio = bio.replace(/বীজ\s*বিচিত্রা/g, 'Seed Haven BD');
+          bio = bio.replace(/বীজ\s*বিচিত্রা/g, 'Ss Seed Shop');
         }
 
         callback({
@@ -834,8 +830,6 @@ export function subscribeToMenuSettings(callback: (settings: MenuSettings) => vo
           menuPolicyEnabled: data.menuPolicyEnabled !== false,
           menuAdminLinkEnabled: data.menuAdminLinkEnabled !== false,
           menuHelplineEnabled: data.menuHelplineEnabled !== false,
-          bottomNavEnabled: data.bottomNavEnabled !== false,
-          menuBarEnabled: data.menuBarEnabled !== false,
         });
       } else {
         callback(DEFAULT_MENU_SETTINGS);
