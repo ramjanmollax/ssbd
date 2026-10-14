@@ -174,12 +174,12 @@ function CultivationGuide({
             {/* Title & Description */}
             <div className="flex-1 min-w-0 pt-0.5">
               {step.title && (
-                <h4 className="text-[15px] sm:text-[17px] font-black text-slate-900 leading-snug tracking-tight">
+                <h4 className="text-[17px] sm:text-[19px] font-black text-slate-900 leading-snug tracking-tight">
                   {step.title}
                 </h4>
               )}
               {step.description && (
-                <p className="text-sm sm:text-[15px] text-slate-600 leading-relaxed font-medium mt-1">
+                <p className="text-[15px] sm:text-[16px] text-slate-600 leading-relaxed font-medium mt-1">
                   {step.description}
                 </p>
               )}
@@ -192,9 +192,9 @@ function CultivationGuide({
               {step.note.split('\n').map((n, i) => (
                 <div
                   key={i}
-                  className="bg-amber-50/90 border border-amber-200/90 rounded-xl p-2.5 sm:p-3 text-amber-950 text-[13px] sm:text-sm font-medium flex items-start gap-2 shadow-2xs"
+                  className="bg-amber-50/90 border border-amber-200/90 rounded-xl p-2.5 sm:p-3 text-amber-950 text-[14px] sm:text-[15px] font-medium flex items-start gap-2 shadow-2xs"
                 >
-                  <span className="text-amber-600 font-extrabold shrink-0 text-[13px] sm:text-sm">💡 পরামর্শ:</span>
+                  <span className="text-amber-600 font-extrabold shrink-0 text-[14px] sm:text-[15px]">💡 পরামর্শ:</span>
                   <span className="leading-relaxed flex-1 text-slate-700 font-medium">{n}</span>
                 </div>
               ))}

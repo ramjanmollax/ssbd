@@ -285,6 +285,8 @@ export interface MenuSettings {
   menuPolicyEnabled?: boolean;
   menuAdminLinkEnabled?: boolean;
   menuHelplineEnabled?: boolean;
+  bottomNavEnabled?: boolean;
+  menuBarEnabled?: boolean;
 }
 
 export const DEFAULT_MENU_SETTINGS: MenuSettings = {
@@ -303,6 +305,8 @@ export const DEFAULT_MENU_SETTINGS: MenuSettings = {
   menuPolicyEnabled: true,
   menuAdminLinkEnabled: true,
   menuHelplineEnabled: true,
+  bottomNavEnabled: true,
+  menuBarEnabled: true,
 };
 
 // Default Homepage Settings
@@ -830,6 +834,8 @@ export function subscribeToMenuSettings(callback: (settings: MenuSettings) => vo
           menuPolicyEnabled: data.menuPolicyEnabled !== false,
           menuAdminLinkEnabled: data.menuAdminLinkEnabled !== false,
           menuHelplineEnabled: data.menuHelplineEnabled !== false,
+          bottomNavEnabled: data.bottomNavEnabled !== false,
+          menuBarEnabled: data.menuBarEnabled !== false,
         });
       } else {
         callback(DEFAULT_MENU_SETTINGS);

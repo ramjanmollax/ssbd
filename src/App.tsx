@@ -1,4 +1,3 @@
-import { INITIAL_PRODUCTS_DATA } from './data/initialProducts';
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { Header } from './components/Header';
@@ -66,6 +65,9 @@ import {
   subscribeToProductRatings,
   saveProductRatingFirebase,
 } from './lib/firestoreProducts';
+
+// Initial fallback product list (live products load automatically from Firestore)
+const INITIAL_PRODUCTS_DATA: Product[] = [];
 
 const ToastNotification: React.FC<{
   message: string | null;
