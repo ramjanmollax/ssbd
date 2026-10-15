@@ -143,8 +143,10 @@
       <div class="px-3 pt-3 pb-1 text-[10px] uppercase tracking-wider text-slate-400 font-bold">সাইট সেটিংস</div>
       <button data-view="homepage" class="nav-item w-full px-3 py-2.5 rounded-xl flex items-center gap-3 text-sm font-semibold"><i data-lucide="home" class="w-4 h-4"></i>হোমপেজ</button>
       <button data-view="menu" class="nav-item w-full px-3 py-2.5 rounded-xl flex items-center gap-3 text-sm font-semibold"><i data-lucide="menu" class="w-4 h-4"></i>সাইড মেনুবার ও ন্যাভবার কন্ট্রোল</button>
-      <button data-view="footer" class="nav-item w-full px-3 py-2.5 rounded-xl flex items-center gap-3 text-sm font-semibold"><i data-lucide="layout-panel-top" class="w-4 h-4"></i>ফুটার সেটিংস</button>
-      <button data-view="delivery" class="nav-item w-full px-3 py-2.5 rounded-xl flex items-center gap-3 text-sm font-semibold"><i data-lucide="truck" class="w-4 h-4"></i>ডেলিভারি ও জোন</button>
+      <button data-view="delivery" class="nav-item w-full px-3 py-2.5 rounded-xl flex items-center justify-between text-sm font-semibold">
+        <span class="flex items-center gap-3"><i data-lucide="truck" class="w-4 h-4 text-emerald-600"></i>ডেলিভারি চার্জ</span>
+        <span class="text-[10px] bg-emerald-100 text-emerald-800 font-extrabold px-2 py-0.5 rounded-full border border-emerald-300">৳৫৫</span>
+      </button>
       <button data-view="payment" class="nav-item w-full px-3 py-2.5 rounded-xl flex items-center gap-3 text-sm font-semibold"><i data-lucide="wallet-cards" class="w-4 h-4"></i>পেমেন্ট / COD</button>
       <button data-view="notice" class="nav-item w-full px-3 py-2.5 rounded-xl flex items-center gap-3 text-sm font-semibold"><i data-lucide="megaphone" class="w-4 h-4"></i>নোটিশ / পপআপ</button>
       <button data-view="contact" class="nav-item w-full px-3 py-2.5 rounded-xl flex items-center gap-3 text-sm font-semibold"><i data-lucide="phone" class="w-4 h-4"></i>যোগাযোগ ও সোশ্যাল</button>
@@ -156,7 +158,10 @@
       <button data-view="reports" class="nav-item w-full px-3 py-2.5 rounded-xl flex items-center gap-3 text-sm font-semibold"><i data-lucide="chart-no-axes-combined" class="w-4 h-4"></i>রিপোর্ট</button>
     </nav>
 
-    <div class="p-4 border-t border-slate-200">
+    <div class="p-4 border-t border-slate-200 space-y-2">
+      <a href="/download-admin-apk" download="SsSeedShop-Android-APK.zip" class="w-full py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-950 border border-amber-200 text-xs font-bold flex items-center justify-center gap-2 shadow-2xs">
+        <i data-lucide="smartphone" class="w-4 h-4 text-amber-600"></i> আপডেট Android App ডাউনলোড
+      </a>
       <a href="https://ais-pre-kcfdbxegghu2jsyras4ikm-346601077198.asia-southeast1.run.app/" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 text-sm font-bold flex items-center justify-center gap-2">
         <i data-lucide="external-link" class="w-4 h-4"></i> সাইট ভিজিট করুন
       </a>
@@ -243,6 +248,18 @@
             <div class="min-w-0">
               <div class="text-xs font-bold text-slate-800">ক্যাটাগরি সমূহ</div>
               <div class="text-[10px] text-slate-500">ক্যাটাগরি তালিকা</div>
+            </div>
+          </button>
+          <button onclick="showView('delivery')" class="card p-3.5 flex items-center gap-3 text-left hover:border-emerald-500 hover:shadow-md transition-all cursor-pointer bg-emerald-50/60 border border-emerald-200">
+            <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-2xs">
+              <i data-lucide="truck" class="w-5 h-5"></i>
+            </div>
+            <div class="min-w-0">
+              <div class="text-xs font-bold text-emerald-950 flex items-center gap-1.5">
+                <span>ডেলিভারি চার্জ</span>
+                <span class="text-[9px] bg-emerald-700 text-white px-1.5 py-0.2 rounded font-black">৳৫৫</span>
+              </div>
+              <div class="text-[10px] text-emerald-700 font-semibold">সারাদেশে ফ্ল্যাট ফি আপডেট</div>
             </div>
           </button>
           <button onclick="showView('courier-steadfast')" class="card p-3.5 flex items-center gap-3 text-left hover:border-emerald-500 hover:shadow-md transition-all cursor-pointer bg-white">
@@ -1203,59 +1220,69 @@
 
         <!-- General Delivery Charges Form -->
         <form data-settings="delivery" class="settings-form card p-6 space-y-5 bg-white rounded-2xl border border-slate-200/80 shadow-xs">
-          <div class="border-b border-slate-100 pb-3 flex items-center justify-between">
-            <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
-              <i data-lucide="map-pin" class="w-4 h-4 text-emerald-600"></i> স্ট্যান্ডার্ড ডেলিভারি ফি কনফিগারেশন
-            </h3>
-            <span class="text-xs bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-full font-bold border border-emerald-200/80">সরাসরি চেকআউটে প্রযোজ্য</span>
+          <div class="border-b border-slate-100 pb-3 flex items-center justify-between flex-wrap gap-2">
+            <div>
+              <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
+                <i data-lucide="truck" class="w-5 h-5 text-emerald-600"></i> সারা বাংলাদেশের ডেলিভারি চার্জ সেটিং (All Bangladesh Delivery)
+              </h3>
+              <p class="text-xs text-slate-500 mt-0.5">এখানে যে চার্জ সেট করবেন, চেকআউটে ঠিক সেই চার্জ যুক্ত হবে।</p>
+            </div>
+            <span class="text-xs bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full font-bold border border-emerald-300">সরাসরি চেকআউটে প্রযোজ্য</span>
           </div>
 
           <!-- Master Delivery Charge On/Off Switch -->
-          <div class="p-4 rounded-xl border bg-amber-50/90 border-amber-200/80 space-y-2">
+          <div class="p-4 rounded-xl border bg-emerald-50/70 border-emerald-200/80 space-y-2">
             <div class="flex items-center justify-between gap-3">
-              <label for="deliveryChargeEnabled" class="text-sm font-extrabold text-amber-950 flex items-center gap-2.5 cursor-pointer select-none">
-                <input id="deliveryChargeEnabled" name="deliveryChargeEnabled" type="checkbox" class="w-5 h-5 accent-emerald-600 rounded cursor-pointer">
+              <label for="deliveryChargeEnabled" class="text-sm font-extrabold text-emerald-950 flex items-center gap-2.5 cursor-pointer select-none">
+                <input id="deliveryChargeEnabled" name="deliveryChargeEnabled" type="checkbox" class="w-5 h-5 accent-emerald-600 rounded cursor-pointer" checked>
                 <span>ডেলিভারি চার্জ চালু রাখুন (Enable Delivery Charges)</span>
               </label>
             </div>
-            <p class="text-xs text-amber-900/90 leading-relaxed pl-7">
-              <b>অন রাখলে:</b> কাস্টমারের অর্ডারে চেকআউটে সারাদেশের ফ্ল্যাট ডেলিভারি চার্জ (যেমন: ৳৫৫) যুক্ত হবে।<br>
+            <p class="text-xs text-emerald-900 leading-relaxed pl-7">
+              <b>অন রাখলে:</b> কাস্টমারের অর্ডারে চেকআউটে সারাদেশের ফ্ল্যাট ডেলিভারি চার্জ (যেমন: <b>৳৫৫</b>) যুক্ত হবে।<br>
               <b>অফ রাখলে:</b> কাস্টমার সম্পূর্ণ <b>ফ্রি ডেলিভারি (৳০)</b> পাবে।
             </p>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-            <div>
-              <label class="text-xs font-bold text-slate-700 block mb-1">
-                সারাদেশে ডেলিভারি চার্জ (৳) <span class="text-rose-500">*</span>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+              <label class="text-sm font-bold text-slate-800 block mb-1">
+                সারাদেশে ফ্ল্যাট ডেলিভারি চার্জ (৳) <span class="text-rose-500">*</span>
               </label>
-              <div class="relative">
-                <span class="absolute left-3 top-2.5 text-slate-400 font-bold text-sm">৳</span>
-                <input name="insideCharge" type="number" required min="0" class="field pl-8 font-bold text-slate-800" placeholder="55">
+              <div class="relative mt-2">
+                <span class="absolute left-3.5 top-3 text-slate-500 font-bold text-base">৳</span>
+                <input id="insideChargeInput" name="insideCharge" type="number" required min="0" class="field pl-9 py-2.5 text-base font-black text-emerald-800 bg-white" placeholder="55" value="55">
               </div>
-              <p class="text-[11px] text-slate-400 mt-1">সমগ্র বাংলাদেশের জন্য প্রযোজ্য ফ্ল্যাট চার্জ</p>
+              <!-- Hidden synced input for outsideCharge to ensure both are updated identically -->
+              <input id="outsideChargeInput" name="outsideCharge" type="hidden" value="55">
+
+              <div class="flex items-center gap-1.5 mt-3 flex-wrap">
+                <span class="text-xs text-slate-500 font-semibold mr-1">কুইক সিলেক্ট:</span>
+                <button type="button" onclick="if($('#insideChargeInput')){$('#insideChargeInput').value='55'; if($('#outsideChargeInput'))$('#outsideChargeInput').value='55';}" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 shadow-2xs cursor-pointer">
+                  ৳৫৫ (বর্তমান)
+                </button>
+                <button type="button" onclick="if($('#insideChargeInput')){$('#insideChargeInput').value='60'; if($('#outsideChargeInput'))$('#outsideChargeInput').value='60';}" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 cursor-pointer">
+                  ৳৬০
+                </button>
+                <button type="button" onclick="if($('#insideChargeInput')){$('#insideChargeInput').value='70'; if($('#outsideChargeInput'))$('#outsideChargeInput').value='70';}" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 cursor-pointer">
+                  ৳৭০
+                </button>
+                <button type="button" onclick="if($('#insideChargeInput')){$('#insideChargeInput').value='0'; if($('#outsideChargeInput'))$('#outsideChargeInput').value='0';}" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-amber-100 text-amber-800 hover:bg-amber-200 cursor-pointer">
+                  ৳০ (ফ্রি)
+                </button>
+              </div>
+              <p class="text-[11px] text-slate-400 mt-2">ঢাকা সহ সমগ্র বাংলাদেশের জন্য প্রযোজ্য ফ্ল্যাট ডেলিভারি ফি</p>
             </div>
 
-            <div>
-              <label class="text-xs font-bold text-slate-700 block mb-1">
-                বিকল্প ডেলিভারি চার্জ (৳)
-              </label>
-              <div class="relative">
-                <span class="absolute left-3 top-2.5 text-slate-400 font-bold text-sm">৳</span>
-                <input name="outsideCharge" type="number" required min="0" class="field pl-8 font-bold text-slate-800" placeholder="55">
-              </div>
-              <p class="text-[11px] text-slate-400 mt-1">প্রয়োজনে পরিবর্তনযোগ্য</p>
-            </div>
-
-            <div>
-              <label class="text-xs font-bold text-slate-700 block mb-1">
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+              <label class="text-sm font-bold text-slate-800 block mb-1">
                 ফ্রি ডেলিভারির ন্যূনতম অর্ডার (৳)
               </label>
-              <div class="relative">
-                <span class="absolute left-3 top-2.5 text-slate-400 font-bold text-sm">৳</span>
-                <input name="freeMinimum" type="number" min="0" class="field pl-8 font-bold text-slate-800" placeholder="1000">
+              <div class="relative mt-2">
+                <span class="absolute left-3.5 top-3 text-slate-500 font-bold text-base">৳</span>
+                <input name="freeMinimum" type="number" min="0" class="field pl-9 py-2.5 text-base font-bold text-slate-800 bg-white" placeholder="1000" value="1000">
               </div>
-              <p class="text-[11px] text-slate-400 mt-1">০ দিলে ফ্রি ডেলিভারি অফার বন্ধ থাকবে</p>
+              <p class="text-[11px] text-slate-400 mt-2">কার্টে এই পরিমাণ টাকার পণ্য নিলে ডেলিভারি অটোমেটিক ফ্রি (৳০) হবে। বন্ধ রাখতে চাইলে ০ দিন।</p>
             </div>
           </div>
 
@@ -1263,11 +1290,11 @@
             <label class="text-xs font-bold text-slate-700 block mb-1">
               ডেলিভারি নোটিশ / তথ্য (কাস্টমারকে চেকআউটে দেখাবে)
             </label>
-            <input name="deliveryNote" class="field" placeholder="যেমন: সারা বাংলাদেশে ২-৪ কার্যদিবসে ক্যাশ অন ডেলিভারিতে হোম ডেলিভারি।">
+            <input name="deliveryNote" class="field text-xs py-2.5" placeholder="যেমন: সারা বাংলাদেশে ২-৪ কার্যদিবসে ক্যাশ অন ডেলিভারিতে হোম ডেলিভারি।" value="সারা বাংলাদেশে ফ্ল্যাট হোম ডেলিভারি চার্জ মাত্র ৫৫ টাকা।">
           </div>
 
           <div class="flex justify-end pt-2 border-t border-slate-100">
-            <button type="submit" class="btn btn-primary px-6 py-2.5 text-sm font-bold shadow-md shadow-emerald-700/20 flex items-center gap-2">
+            <button type="submit" class="btn btn-primary px-7 py-2.5 text-sm font-bold shadow-md shadow-emerald-700/20 flex items-center gap-2 cursor-pointer">
               <i data-lucide="check" class="w-4 h-4"></i> ডেলিভারি চার্জ সেভ করুন
             </button>
           </div>
@@ -5993,37 +6020,60 @@
 
     async function uploadOrCompressImage(file, options = {}) {
       try {
-        const processPromise = (async () => {
-          const comp = await compressImageFile(file, options);
+        const comp = await compressImageFile(file, options);
 
-          if (typeof storage !== 'undefined' && storage) {
-            try {
-              const storagePromise = (async () => {
-                const safeName = `img_${Date.now()}_${Math.random().toString(36).substring(2, 8)}.${comp.isWebp ? 'webp' : 'jpg'}`;
-                const storageRef = sRef(storage, `uploads/${safeName}`);
-                const mimeType = (comp.dataUrl && comp.dataUrl.split(';')[0].replace('data:', '')) || 'image/webp';
-                await uploadString(storageRef, comp.dataUrl, 'data_url', { contentType: mimeType });
-                return await getDownloadURL(storageRef);
-              })();
+        // 1. If on live production web domain, attempt server-side upload to /uploads/
+        try {
+          const origin = window.location.origin || '';
+          const isEphemeral = !origin || origin.includes('localhost') || origin.includes('127.0.0.1') || origin.includes('appassets') || origin.includes('run.app');
+          
+          if (!isEphemeral) {
+            const uploadController = new AbortController();
+            const uploadTimeout = setTimeout(() => uploadController.abort(), 6000);
 
-              const storageTimeout = new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 2000));
-              const downloadUrl = await Promise.race([storagePromise, storageTimeout]);
-              if (downloadUrl) {
-                return { url: downloadUrl, sizeKb: comp.sizeKb, isServer: true, isFirebaseStorage: true };
+            const upRes = await fetch('/api/upload', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                dataUrl: comp.dataUrl,
+                filename: file.name || `image_${Date.now()}.webp`
+              }),
+              signal: uploadController.signal
+            });
+            clearTimeout(uploadTimeout);
+
+            if (upRes.ok) {
+              const data = await upRes.json();
+              if (data && data.url) {
+                return { url: data.url, sizeKb: data.sizeKb || comp.sizeKb, isServer: true };
               }
-            } catch (err) {}
+            }
           }
-          return { url: comp.dataUrl, sizeKb: comp.sizeKb, isServer: false };
-        })();
+        } catch (serverErr) {
+          console.warn('Backend /api/upload notice:', serverErr);
+        }
 
-        const totalTimeout = new Promise((resolve) => setTimeout(() => {
-          const r = new FileReader();
-          r.onload = (e) => resolve({ url: e.target.result, sizeKb: Math.round(file.size / 1024), isServer: false });
-          r.onerror = () => resolve({ url: '', sizeKb: 0, isServer: false });
-          r.readAsDataURL(file);
-        }, 3200));
+        // 2. Next try Firebase Storage if available
+        if (typeof storage !== 'undefined' && storage) {
+          try {
+            const storagePromise = (async () => {
+              const safeName = `img_${Date.now()}_${Math.random().toString(36).substring(2, 8)}.${comp.isWebp ? 'webp' : 'jpg'}`;
+              const storageRef = sRef(storage, `uploads/${safeName}`);
+              const mimeType = (comp.dataUrl && comp.dataUrl.split(';')[0].replace('data:', '')) || 'image/webp';
+              await uploadString(storageRef, comp.dataUrl, 'data_url', { contentType: mimeType });
+              return await getDownloadURL(storageRef);
+            })();
 
-        return await Promise.race([processPromise, totalTimeout]);
+            const storageTimeout = new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 2500));
+            const downloadUrl = await Promise.race([storagePromise, storageTimeout]);
+            if (downloadUrl) {
+              return { url: downloadUrl, sizeKb: comp.sizeKb, isServer: true, isFirebaseStorage: true };
+            }
+          } catch (err) {}
+        }
+
+        // 3. Fallback to lightweight compressed dataUrl
+        return { url: comp.dataUrl, sizeKb: comp.sizeKb, isServer: false };
       } catch (err) {
         return new Promise((resolve) => {
           const r = new FileReader();
@@ -8049,11 +8099,11 @@
         shippingLabel: 'সাইটম্যাপ / ডেলিভারি'
       },
       delivery: {
-        deliveryChargeEnabled: false,
-        insideCharge: 60,
-        outsideCharge: 100,
+        deliveryChargeEnabled: true,
+        insideCharge: 55,
+        outsideCharge: 55,
         freeMinimum: 1000,
-        deliveryNote: 'সারা বাংলাদেশে ২-৪ কার্যদিবসে ক্যাশ অন ডেলিভারিতে হোম ডেলিভারি।'
+        deliveryNote: 'সারা বাংলাদেশে ফ্ল্যাট হোম ডেলিভারি চার্জ মাত্র ৫৫ টাকা।'
       },
       payment: {
         codEnabled: true,
@@ -8091,10 +8141,10 @@
         tiktok: 'https://tiktok.com/@ssseedshop'
       },
       policies: {
-        privacy: `Ss Seed Shop-তে আপনার ব্যক্তিগত তথ্যের নিরাপত্তা আমাদের কাছে অত্যন্ত গুরুত্বপূর্ণ।\n\n১. তথ্য সংগ্রহ: অর্ডার প্রক্রিয়াকরণের জন্য আপনার নাম, ঠিকানা, মোবাইল নম্বর ও ইমেইল সংরক্ষণ করা হয়।\n২. তথ্যের ব্যবহার: শুধুমাত্র পণ্য পৌঁছে দেওয়া এবং অর্ডার সংক্রান্ত যোগাযোগের জন্য আপনার তথ্য ব্যবহৃত হয়।\n৩. তথ্য গোপনীয়তা: আমরা আপনার ব্যক্তিগত তথ্য কোনো তৃতীয় পক্ষের কাছে বিক্রি বা শেয়ার করি না।\n৪. ডাটা সিকিউরিটি: আপনার অর্ডারের তথ্য নিরাপদ ডাটাবেসে সুরক্ষিত রাখা হয়।`,
+        privacy: `Ss Seed Shop-তে আপনার ব্যক্তিগত তথ্যের নিরাপত্তা আমাদের কাছে অত্যন্ত গুরুত্বপূর্ণ。\n\n১. তথ্য সংগ্রহ: অর্ডার প্রক্রিয়াকরণের জন্য আপনার নাম, ঠিকানা, মোবাইল নম্বর ও ইমেইল সংরক্ষণ করা হয়।\n২. তথ্যের ব্যবহার: শুধুমাত্র পণ্য পৌঁছে দেওয়া এবং অর্ডার সংক্রান্ত যোগাযোগের জন্য আপনার তথ্য ব্যবহৃত হয়।\n৩. তথ্য গোপনীয়তা: আমরা আপনার ব্যক্তিগত তথ্য কোনো তৃতীয় পক্ষের কাছে বিক্রি বা শেয়ার করি না।\n৪. ডাটা সিকিউরিটি: আপনার অর্ডারের তথ্য নিরাপদ ডাটাবেসে সুরক্ষিত রাখা হয়।`,
         terms: `Ss Seed Shop থেকে যেকোনো পণ্য ক্রয়ের পূর্বে নিম্নোক্ত শর্তাবলী ভালোভাবে পড়ে নিন:\n\n১. অর্ডার নিশ্চিতকরণ: ওয়েবসাইটে অর্ডার সম্পন্ন করার পর আমাদের প্রতিনিধি কল বা মেসেজের মাধ্যমে অর্ডার কনফার্ম করতে পারেন।\n২. মূল্য ও পেমেন্ট: প্রতিটি বীজের গায়ে বা ওয়েবসাইটে উল্লেখিত মূল্যই চূড়ান্ত। ক্যাশ অন ডেলিভারি বা বিকাশ/নগদ/রকেটে পেমেন্ট করা যাবে।\n৩. স্টক ও ডেলিভারি: সকল প্রোডাক্টের স্টক প্রতিনিয়ত আপডেট হয়। প্রাকৃতিক দুর্যোগ বা পার্সেল পরিবহনে বিলম্ব হলে কাস্টমারকে অবহিত করা হবে।\n৪. বীজের গুণমান: আমরা সর্বোচ্চ মানের বীজ সরবরাহ করে থাকি, তবে অঙ্কুরোদ্গম সম্পূর্ণ নির্ভর করে সঠিক মাটি, আলো, তাপমাত্রা ও পরিচর্যার ওপর।`,
         refund: `গ্রাহক সন্তুষ্টি আমাদের মূল লক্ষ্য। পণ্য গ্রহণে কোনো ত্রুটি পরিলক্ষিত হলে আমাদের রিটার্ন পলিসি প্রযোজ্য হবে:\n\n১. রিটার্ন গ্রহণের সময়: পার্সেল হাতে পাওয়ার পর ডেলিভারি ম্যানের সামনেই প্যাকেট চেক করুন।\n২. ভুল বা ক্ষতিগ্রস্ত পণ্য: ভুল বীজ বা ক্ষতিগ্রস্ত পার্সেল পেলে সাথে সাথে ডেলিভারি ম্যানকে ফেরত দিন অথবা আমাদের হেল্পলাইনে কল করুন।\n৩. রিফান্ড প্রক্রিয়া: কোনো কারণে রিটার্নকৃত পণ্যের রিফান্ড প্রযোজ্য হলে ৩ থেকে ৭ কর্মদিবসের মধ্যে বিকাশ/নগদে টাকা ফেরত দেওয়া হবে।\n৪. শর্তাবলী: ব্যবহৃত বা কাস্টমার দ্বারা ক্ষতিগ্রস্ত পণ্যের ক্ষেত্রে রিটার্ন বা রিফান্ড প্রযোজ্য হবে না।`,
-        shipping: `Ss Seed Shop সারা বাংলাদেশে বিশ্বস্ত কুরিয়ার সার্ভিসের মাধ্যমে হোম ডেলিভারি সুবিধা প্রদান করে:\n\n১. ডেলিভারি চার্জ: ঢাকা শহরের ভেতরে ডেলিভারি চার্জ ৮০ টাকা এবং ঢাকার বাইরে ১৫০ টাকা (অথবা নির্ধারিত ডেলিভারি ফি)।\n২. ডেলিভারি সময়: অর্ডার কনফার্ম হওয়ার পর সাধারণত ২ থেকে ৪ কার্যদিবসের মধ্যে ডেলিভারি সম্পন্ন হয়।\n৩. ট্র্যাকিং ও আপডেট: অর্ডার শিপ হওয়ার পর এসএমএস বা হোয়াটসঅ্যাপে ডেলিভারি আপডেট জানানো হবে।\n৪. ক্যাশ অন ডেলিভারি: কুরিয়ার ম্যানের থেকে পণ্য হাতে পেয়ে মূল্য পরিশোধ করার সুবিধা রয়েছে।`
+        shipping: `Ss Seed Shop সারা বাংলাদেশে বিশ্বস্ত কুরিয়ার সার্ভিসের মাধ্যমে হোম ডেলিভারি সুবিধা প্রদান করে:\n\n১. ডেলিভারি চার্জ: সারা বাংলাদেশে ফ্ল্যাট হোম ডেলিভারি চার্জ মাত্র ৫৫ টাকা।\n২. ডেলিভারি সময়: অর্ডার কনফার্ম হওয়ার পর সাধারণত ২ থেকে ৪ কার্যদিবসের মধ্যে ডেলিভারি সম্পন্ন হয়।\n৩. ট্র্যাকিং ও আপডেট: অর্ডার শিপ হওয়ার পর এসএমএস বা হোয়াটসঅ্যাপে ডেলিভারি আপডেট জানানো হবে।\n৪. ক্যাশ অন ডেলিভারি: কুরিয়ার ম্যানের থেকে পণ্য হাতে পেয়ে মূল্য পরিশোধ করার সুবিধা রয়েছে।`
       },
       seo: {
         siteTitle: 'Ss Seed Shop - প্রিমিয়াম বীজ ও গার্ডেন শপ',
@@ -8207,8 +8257,10 @@
       updateFooterSettingsUI();
       updateTopBarPreview();
       updateMarqueePreview();
-      updateLeaderboardPreview();
       renderCustomUsersTable();
+      $('#insideChargeInput')?.addEventListener('input', (e) => {
+        if ($('#outsideChargeInput')) $('#outsideChargeInput').value = e.target.value;
+      });
     }
 
     // Top Header Announcement Bar Live Preview
