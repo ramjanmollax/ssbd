@@ -62,8 +62,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 
   // Delivery Settings & Zones from Firestore
   const [deliverySettings, setDeliverySettings] = useState<DeliverySettings>({
-    insideCharge: 60,
-    outsideCharge: 100,
+    insideCharge: 55,
+    outsideCharge: 55,
     freeMinimum: 1000,
     deliveryChargeEnabled: true,
   });
@@ -86,9 +86,6 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<'cod' | 'bkash' | 'nagad' | 'rocket'>('cod');
   const [senderNumber, setSenderNumber] = useState('');
   const [transactionId, setTransactionId] = useState('');
-
-  // Delivery Location Choice
-  const [deliveryLocation, setDeliveryLocation] = useState<'dhaka' | 'outside'>('dhaka');
 
   // Order Checkout Form State
   const [customerName, setCustomerName] = useState('');
@@ -131,16 +128,6 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
     }
   }, [paymentSettings, selectedPaymentMethod]);
 
-  // Sync district with delivery location
-  const handleDeliveryLocationChange = (location: 'dhaka' | 'outside') => {
-    setDeliveryLocation(location);
-    if (location === 'dhaka') {
-      setDistrict('ঢাকা');
-    } else if (district === 'ঢাকা') {
-      setDistrict('চট্টগ্রাম');
-    }
-  };
-
   // Reset checkout form and successOrder when closed
   useEffect(() => {
     if (!isOpen) {
@@ -168,7 +155,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 
   const subtotal = cartItems.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
   const isDeliveryFeeActive = deliverySettings.deliveryChargeEnabled === true;
-  const baseDeliveryCharge = deliveryLocation === 'dhaka' ? deliverySettings.insideCharge : deliverySettings.outsideCharge;
+  const baseDeliveryCharge = typeof deliverySettings.insideCharge === 'number' ? deliverySettings.insideCharge : 55;
 
   // Check if any product in the cart has custom delivery charge or free delivery set
   let customDeliveryCharge: number | null = null;
@@ -178,7 +165,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
     if (item.product.isFreeDelivery) {
       hasFreeDeliveryProduct = true;
     }
-    const productCharge = deliveryLocation === 'dhaka' ? item.product.insideDeliveryCharge : item.product.outsideDeliveryCharge;
+    const productCharge = item.product.insideDeliveryCharge ?? item.product.outsideDeliveryCharge;
     if (typeof productCharge === 'number' && !isNaN(productCharge)) {
       if (customDeliveryCharge === null || productCharge > customDeliveryCharge) {
         customDeliveryCharge = productCharge;
@@ -770,46 +757,18 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                 </div>
 
                 {isDeliveryFeeActive && (
-                  <div>
-                    <label className="block text-[11px] font-bold text-slate-700 mb-1 flex items-center justify-between">
-                      <span>শিপিং জোন / ডেলিভারি চার্জ *</span>
-                      {isFreeDelivery && <span className="text-[10px] text-emerald-800 bg-emerald-100 px-1.5 py-0.2 rounded-full font-bold">ফ্রি</span>}
-                    </label>
-                    <div className="grid grid-cols-2 gap-1.5 text-xs">
-                      <button
-                        type="button"
-                        onClick={() => handleDeliveryLocationChange('dhaka')}
-                        className={`p-2 rounded-lg border text-left font-bold cursor-pointer ${
-                          deliveryLocation === 'dhaka' ? 'bg-[#087d43] text-white border-[#087d43]' : 'bg-slate-50 text-slate-700 border-slate-200'
-                        }`}
-                      >
-                        <div className="text-xs">ঢাকা শহর</div>
-                        <div className="text-[11px] font-bold">
-                          {isFreeDelivery
-                            ? '৳০ (ফ্রি)'
-                            : `৳${cartItems.reduce((max, item) => {
-                                const c = item.product.insideDeliveryCharge;
-                                return typeof c === 'number' && !isNaN(c) ? Math.max(max, c) : max;
-                              }, deliverySettings.insideCharge)}`}
-                        </div>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleDeliveryLocationChange('outside')}
-                        className={`p-2 rounded-lg border text-left font-bold cursor-pointer ${
-                          deliveryLocation === 'outside' ? 'bg-[#087d43] text-white border-[#087d43]' : 'bg-slate-50 text-slate-700 border-slate-200'
-                        }`}
-                      >
-                        <div className="text-xs">ঢাকার বাইরে</div>
-                        <div className="text-[11px] font-bold">
-                          {isFreeDelivery
-                            ? '৳০ (ফ্রি)'
-                            : `৳${cartItems.reduce((max, item) => {
-                                const c = item.product.outsideDeliveryCharge;
-                                return typeof c === 'number' && !isNaN(c) ? Math.max(max, c) : max;
-                              }, deliverySettings.outsideCharge)}`}
-                        </div>
-                      </button>
+                  <div className="p-2.5 rounded-xl border bg-emerald-50/80 border-emerald-200/80 text-xs text-emerald-900 flex items-center justify-between shadow-2xs">
+                    <div className="flex items-center gap-2">
+                      <span className="text-base">🚚</span>
+                      <div>
+                        <div className="text-xs font-bold text-[#083e23]">সারাদেশে ডেলিভারি চার্জ (All Bangladesh)</div>
+                        <div className="text-[10px] text-emerald-700 font-medium">ক্যাশ অন ডেলিভারিতে হোম ডেলিভারি</div>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-sm font-black text-[#087d43]">
+                        {isFreeDelivery ? '৳০ (ফ্রি)' : `৳${activeDeliveryFee}`}
+                      </span>
                     </div>
                   </div>
                 )}

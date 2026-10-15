@@ -23,6 +23,7 @@ import { ProductCompareModal } from './components/ProductCompareModal';
 import { WishlistModal } from './components/WishlistModal';
 import { AuthModal } from './components/AuthModal';
 import { OrderMemoModal } from './components/OrderMemoModal';
+import { SplashLoader } from './components/SplashLoader';
 import { Scale, CheckCircle2, X, ChevronLeft, MessageCircle } from 'lucide-react';
 import { trackAddToCart, trackPurchase } from './lib/utils';
 import { safeStorage } from './lib/safeStorage';
@@ -230,6 +231,7 @@ export default function App() {
       return [];
     }
   });
+  const [showSplash, setShowSplash] = useState<boolean>(true);
   const [ordersList, setOrdersList] = useState<OrderDetails[]>([]);
   const [isLoadingProducts, setIsLoadingProducts] = useState<boolean>(true);
   const [isLoadingOrders, setIsLoadingOrders] = useState<boolean>(true);
@@ -971,6 +973,13 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#f8faf8] text-[#16331f] flex flex-col justify-between selection:bg-[#49a845]/20 selection:text-[#063d24]">
+      {showSplash && (
+        <SplashLoader
+          onComplete={() => setShowSplash(false)}
+          brandName={storeSettings?.name || 'Ss Seed Shop'}
+          logoUrl={storeSettings?.logoUrl}
+        />
+      )}
       {/* Full Responsive Container for Mobile, Tablet & PC */}
       <div className="w-full min-h-screen flex flex-col justify-between bg-white">
         {/* Scroll Progress Bar */}

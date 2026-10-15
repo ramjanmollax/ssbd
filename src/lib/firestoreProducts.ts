@@ -587,11 +587,11 @@ export function subscribeToFooterSettings(callback: (settings: FooterSettings) =
 export function subscribeToDeliverySettings(callback: (settings: DeliverySettings) => void) {
   const docRef = doc(db, 'settings', 'delivery');
   const defaultDelivery: DeliverySettings = {
-    insideCharge: 60,
-    outsideCharge: 100,
+    insideCharge: 55,
+    outsideCharge: 55,
     freeMinimum: 1000,
-    deliveryNote: 'সারা বাংলাদেশে ২-৪ কার্যদিবসে ক্যাশ অন ডেলিভারিতে হোম ডেলিভারি।',
-    deliveryChargeEnabled: false,
+    deliveryNote: 'সারা বাংলাদেশে মাত্র ৫৫ টাকায় ক্যাশ অন ডেলিভারিতে হোম ডেলিভারি।',
+    deliveryChargeEnabled: true,
   };
 
   return onSnapshot(
@@ -600,11 +600,11 @@ export function subscribeToDeliverySettings(callback: (settings: DeliverySetting
       if (docSnap.exists()) {
         const data = docSnap.data();
         callback({
-          insideCharge: typeof data.insideCharge === 'number' ? data.insideCharge : 60,
-          outsideCharge: typeof data.outsideCharge === 'number' ? data.outsideCharge : 100,
+          insideCharge: typeof data.insideCharge === 'number' ? data.insideCharge : 55,
+          outsideCharge: typeof data.outsideCharge === 'number' ? data.outsideCharge : 55,
           freeMinimum: typeof data.freeMinimum === 'number' ? data.freeMinimum : 1000,
           deliveryNote: data.deliveryNote || defaultDelivery.deliveryNote,
-          deliveryChargeEnabled: typeof data.deliveryChargeEnabled === 'boolean' ? data.deliveryChargeEnabled : false,
+          deliveryChargeEnabled: typeof data.deliveryChargeEnabled === 'boolean' ? data.deliveryChargeEnabled : true,
         });
       } else {
         callback(defaultDelivery);

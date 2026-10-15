@@ -36,20 +36,16 @@ export const DeliveryChargeModal: React.FC<ModalProps> = ({ isOpen, onClose }) =
         </div>
 
         <div className="space-y-2 text-xs font-semibold text-gray-700 border-t border-gray-100 pt-3">
-          <div className="flex justify-between items-center p-2.5 rounded-xl bg-gray-50 border border-gray-100">
-            <span>২০০ টাকার নিচে অর্ডার:</span>
-            <span className="font-extrabold text-[#1c3822]">৳ ১২০</span>
+          <div className="flex justify-between items-center p-3 rounded-xl bg-emerald-50/70 border border-emerald-200">
+            <span className="font-bold text-[#083e23]">সারাদেশে ডেলিভারি চার্জ (All Bangladesh):</span>
+            <span className="font-extrabold text-base text-[#087d43]">৳ ৫৫</span>
           </div>
-          <div className="flex justify-between items-center p-2.5 rounded-xl bg-gray-50 border border-gray-100">
-            <span>২০০ - ৩৯৯ টাকা অর্ডার:</span>
-            <span className="font-extrabold text-[#1c3822]">৳ ৭০</span>
-          </div>
-          <div className="flex justify-between items-center p-2.5 rounded-xl bg-gray-50 border border-gray-100">
-            <span>৪০০ - ৫৯৯ টাকা অর্ডার:</span>
-            <span className="font-extrabold text-[#1c3822]">৳ ৫০</span>
+          <div className="flex justify-between items-center p-2.5 rounded-xl bg-gray-50 border border-gray-100 text-[11px] text-gray-600">
+            <span>ক্যাশ অন ডেলিভারি:</span>
+            <span className="font-bold text-gray-800">পণ্য হাতে পেয়ে টাকা পরিশোধ</span>
           </div>
           <div className="flex justify-between items-center p-2.5 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200">
-            <span>৬০০+ টাকার উপরে অর্ডার:</span>
+            <span>১০০০+ টাকার ওপরের অর্ডারে:</span>
             <span className="font-black text-emerald-700">🎉 সম্পূর্ণ ফ্রি ডেলিভারি!</span>
           </div>
         </div>
