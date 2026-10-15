@@ -1,27 +1,33 @@
 {
-  "version": 2,
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "rewrites": [
+  "routes": [
     {
-      "source": "/api/(.*)",
-      "destination": "/api/index.ts"
+      "src": "/api/(.*)",
+      "dest": "/api/index.ts"
     },
     {
-      "source": "/admin",
-      "destination": "/admin.html"
+      "handle": "filesystem"
     },
     {
-      "source": "/admin.html",
-      "destination": "/admin.html"
+      "src": "/admin",
+      "dest": "/admin.html"
     },
     {
-      "source": "/panel",
-      "destination": "/admin.html"
+      "src": "/admin/(.*)",
+      "dest": "/admin.html"
     },
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "src": "/panel",
+      "dest": "/admin.html"
+    },
+    {
+      "src": "/panel/(.*)",
+      "dest": "/admin.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ]
 }
