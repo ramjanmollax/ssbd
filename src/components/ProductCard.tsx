@@ -124,7 +124,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         onClick={handleView}
         className="relative aspect-square overflow-hidden bg-[#f4f7f4] cursor-pointer group/img"
       >
-        {/* Shimmer skeleton while image is loading */}
+        {/* Shimmer skeleton behind image while loading */}
         {!isLoaded && !hasError && (
           <div className="absolute inset-0 z-0 bg-gradient-to-tr from-slate-100 via-emerald-50/50 to-slate-200 animate-pulse flex items-center justify-center">
             <span className="text-2xl opacity-40 select-none">{product.imageEmoji || '🌱'}</span>
@@ -133,15 +133,17 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
         {currentImgSrc && !hasError ? (
           <img
+            ref={(el) => {
+              if (el && el.complete && el.naturalWidth > 0 && !isLoaded) {
+                setIsLoaded(true);
+              }
+            }}
             src={currentImgSrc}
             alt={product.name}
-            className={`w-full h-full object-cover group-hover/img:scale-108 transition-all duration-500 ease-out ${
-              isLoaded ? 'opacity-100' : 'opacity-0'
-            }`}
+            className="w-full h-full object-cover group-hover/img:scale-108 transition-transform duration-300 relative z-10"
             loading={priority ? 'eager' : 'lazy'}
             fetchPriority={priority ? 'high' : 'auto'}
             decoding="async"
-            referrerPolicy="no-referrer"
             onLoad={() => {
               if (currentImgSrc) loadedImagesCache.add(currentImgSrc);
               setIsLoaded(true);

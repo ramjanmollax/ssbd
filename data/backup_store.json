@@ -2150,5 +2150,14 @@
     }
   ],
   "orders": [],
-  "updatedAt": "2026-10-15T02:49:06.752Z"
+  "settings": {
+    "delivery": {
+      "deliveryChargeEnabled": true,
+      "insideCharge": 55,
+      "outsideCharge": 55,
+      "freeMinimum": 1000,
+      "deliveryNote": "সারা বাংলাদেশে ফ্ল্যাট হোম ডেলিভারি চার্জ মাত্র ৫৫ টাকা।"
+    }
+  },
+  "updatedAt": "2026-10-15T07:40:00.000Z"
 }

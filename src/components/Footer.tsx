@@ -190,6 +190,14 @@ export const Footer: React.FC<FooterProps> = ({
                 {p.label}
               </button>
             ))}
+            <a
+              href="/admin.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-amber-300 font-bold hover:text-white hover:underline transition-colors flex items-center gap-1"
+            >
+              <span>⚙️ অ্যাডমিন প্যানেল</span>
+            </a>
           </div>
           <button type="button" onClick={scrollToTop} title="ওপরে যান" aria-label="ওপরে যান"
             className="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all cursor-pointer shadow-md">

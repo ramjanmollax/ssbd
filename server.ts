@@ -1420,6 +1420,15 @@ app.get(['/admin', '/admin.html', '/panel'], (req, res) => {
   res.status(404).send('Admin panel not found. Please verify admin.html exists.');
 });
 
+// Download updated Android Studio APK Project zip
+app.get(['/download-admin-apk', '/SsSeedShop-Android-APK.zip'], (req, res) => {
+  const zipPath = path.join(process.cwd(), 'SsSeedShop-Android-APK.zip');
+  if (fs.existsSync(zipPath)) {
+    return res.download(zipPath, 'SsSeedShop-Android-APK.zip');
+  }
+  res.status(404).send('APK Zip not found.');
+});
+
 // Backup data endpoints for offline / quota exceeded resilience
 const BACKUP_FILE = path.join(DATA_DIR, 'backup_store.json');
 

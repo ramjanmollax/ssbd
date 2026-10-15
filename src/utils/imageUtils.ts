@@ -23,9 +23,9 @@ export function getOptimizedImageUrl(url?: string | null): string {
     return trimmed;
   }
 
-  // If it's a remote URL (such as Firebase, Unsplash, CDN, etc.), return direct URL for instant parallel browser loading
+  // If it's a remote URL (such as abseed.com.bd, external CDN, etc.), proxy through local high-speed disk cache
   if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
-    return trimmed;
+    return `/api/image-proxy?url=${encodeURIComponent(trimmed)}`;
   }
 
   return trimmed;
