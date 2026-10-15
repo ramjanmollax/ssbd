@@ -126,8 +126,8 @@ export const Header: React.FC<HeaderProps> = ({
               </span>
               <span className="text-slate-700">•</span>
               <span className="flex items-center gap-1">
-                <Truck size={12} className="text-slate-300" />
-                <span>{homepageSettings?.topBarDelivery || 'সারা বাংলাদেশে ক্যাশ অন ডেলিভারি'}</span>
+                <Truck size={12} className="text-amber-400" />
+                <span className="font-bold text-amber-200">{homepageSettings?.topBarDelivery || 'সারাদেশে ক্যাশ অন হোম ডেলিভারি'}</span>
               </span>
               <span className="text-slate-700">•</span>
               <span className="flex items-center gap-1 text-amber-300 font-bold">

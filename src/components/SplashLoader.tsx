@@ -117,7 +117,7 @@ export const SplashLoader: React.FC<SplashLoaderProps> = ({
       <div className="pb-4 text-center">
         <div className="inline-flex items-center gap-2 bg-emerald-900/60 border border-emerald-700/50 px-3.5 py-1.5 rounded-full text-[11px] text-emerald-200 font-semibold shadow-md backdrop-blur-xs">
           <CheckCircle2 size={13} className="text-emerald-400 shrink-0" />
-          <span>সারাদেশে হোম ডেলিভারি ৳৫৫</span>
+          <span>সারাদেশে ক্যাশ অন ডেলিভারি</span>
         </div>
       </div>
     </div>

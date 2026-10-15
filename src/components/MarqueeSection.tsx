@@ -13,7 +13,7 @@ export const MarqueeSection: React.FC<MarqueeSectionProps> = ({ settings }) => {
 
   const text =
     settings?.marqueeText ||
-    '🌾 Ss Seed Shop - বিশুদ্ধ বীজ ও সুস্থ চারা দিয়ে গড়ে তুলুন আপনার স্বপ্নের ছাদবাগান! সারা দেশে ক্যাশ অন ডেলিভারি সুবিধা ও ১০০% অঙ্কুরোদ্গম নিশ্চয়তা।';
+    '🌾 Ss Seed Shop - মানসম্মত বীজ ও সুস্থ চারা দিয়ে গড়ে তুলুন আপনার স্বপ্নের বাগান! সারা দেশে হোম ডেলিভারি মাত্র ৫৫ টাকা (All Bangladesh ৳55) ও ১০০% অঙ্কুরোদ্গম নিশ্চয়তা।';
 
   if (!text || text.trim() === '') return null;
 

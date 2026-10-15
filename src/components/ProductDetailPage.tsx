@@ -729,11 +729,14 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
               </div>
 
               {/* Delivery Banner inside unified box */}
-              <div className="p-3 sm:p-3.5 bg-slate-50/70 flex items-center gap-2.5 text-xs sm:text-sm font-semibold text-slate-700">
-                <Truck className="w-5 h-5 text-[#118137] shrink-0" />
-                <p className="leading-snug">
-                  ডেলিভারি সময়: <span className="text-[#118137] font-extrabold">২-৩ দিন (সারা বাংলাদেশ)</span>
-                </p>
+              <div className="p-3 sm:p-3.5 bg-slate-50/80 border-t border-slate-100 flex items-center justify-between gap-2.5 text-xs sm:text-sm font-semibold text-slate-700">
+                <div className="flex items-center gap-2.5">
+                  <Truck className="w-5 h-5 text-[#118137] shrink-0" />
+                  <p className="leading-snug">
+                    ডেলিভারি সময়: <span className="text-[#118137] font-bold">২-৩ কার্যদিবস (সারা বাংলাদেশ)</span>
+                  </p>
+                </div>
+                <span className="text-[10px] bg-emerald-700 text-white font-bold px-2 py-0.5 rounded-full shrink-0">ক্যাশ অন ডেলিভারি</span>
               </div>
             </section>
 

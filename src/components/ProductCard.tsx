@@ -37,6 +37,8 @@ export const ProductCardSkeleton: React.FC = () => {
   );
 };
 
+const loadedImagesCache = new Set<string>();
+
 export const ProductCard: React.FC<ProductCardProps> = ({
   product,
   onAddToCart,
@@ -52,14 +54,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
   const initialImageUrl = product.image ? getOptimizedImageUrl(product.image) : '';
   const [currentImgSrc, setCurrentImgSrc] = useState<string>(initialImageUrl);
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [isLoaded, setIsLoaded] = useState<boolean>(() => !!initialImageUrl && loadedImagesCache.has(initialImageUrl));
   const [hasError, setHasError] = useState<boolean>(false);
 
   // Sync if product image changes
   React.useEffect(() => {
     const nextUrl = product.image ? getOptimizedImageUrl(product.image) : '';
     setCurrentImgSrc(nextUrl);
-    setIsLoaded(false);
+    setIsLoaded(!!nextUrl && loadedImagesCache.has(nextUrl));
     setHasError(false);
   }, [product.image]);
 
@@ -140,7 +142,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             fetchPriority={priority ? 'high' : 'auto'}
             decoding="async"
             referrerPolicy="no-referrer"
-            onLoad={() => setIsLoaded(true)}
+            onLoad={() => {
+              if (currentImgSrc) loadedImagesCache.add(currentImgSrc);
+              setIsLoaded(true);
+            }}
             onError={handleImageError}
           />
         ) : (
