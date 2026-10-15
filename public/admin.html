@@ -5047,18 +5047,18 @@
     import { getStorage, ref as sRef, uploadString, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js';
 
     const firebaseConfig = {
-      apiKey: "AIzaSyCIh_0ReFnFG-SHnNh4wrrB9jcu8HFb3Ew",
-      authDomain: "splendid-temple-qcf5x.firebaseapp.com",
-      projectId: "splendid-temple-qcf5x",
-      storageBucket: "splendid-temple-qcf5x.firebasestorage.app",
-      messagingSenderId: "684750266151",
-      appId: "1:684750266151:web:708d3efc9c00a17e3a5302"
+      apiKey: "AIzaSyDEDYfpBrJJJE8ZsrCi9ezTzpl7srvu4Wo",
+      authDomain: "ss-seed-shoo.firebaseapp.com",
+      projectId: "ss-seed-shoo",
+      storageBucket: "ss-seed-shoo.firebasestorage.app",
+      messagingSenderId: "19549535279",
+      appId: "1:19549535279:web:ab0dc3e448f9ed235a5ada"
     };
 
     const app = initializeApp(firebaseConfig);
     const db = initializeFirestore(app, {
       experimentalAutoDetectLongPolling: true
-    }, "seedhavenbd-v2");
+    }, "(default)");
 
     let storage = null;
     try {
@@ -5328,16 +5328,10 @@
       }
     }
 
-    // Load local cache immediately on startup
+    // Purge stale local product cache
     try {
-      const cProds = localStorage.getItem('ssseed_admin_products') || localStorage.getItem('seedhaven_admin_products');
-      if (cProds) {
-        const parsed = JSON.parse(cProds);
-        if (Array.isArray(parsed) && parsed.length) {
-          products = parsed;
-          renderProducts(); renderInventory(); refreshDashboard(); populateCategoryOptions(); renderReports();
-        }
-      }
+      localStorage.removeItem('ssseed_admin_products');
+      localStorage.removeItem('seedhaven_admin_products');
       const cCats = localStorage.getItem('ssseed_admin_categories') || localStorage.getItem('seedhaven_admin_categories');
       if (cCats) {
         const parsed = JSON.parse(cCats);

@@ -976,9 +976,7 @@ export function subscribeToProducts(callback: (products: Product[]) => void) {
     colRef,
     async (snapshot) => {
       if (snapshot.empty) {
-        callback(INITIAL_PRODUCTS_DATA);
-        // Automatically seed initial products to Firestore in background
-        seedInitialProducts(INITIAL_PRODUCTS_DATA).catch(console.error);
+        callback([]);
         return;
       }
 
@@ -1018,16 +1016,11 @@ export function subscribeToProducts(callback: (products: Product[]) => void) {
         });
       });
 
-      if (productsList.length > 0) {
-        callback(productsList);
-      } else {
-        callback(INITIAL_PRODUCTS_DATA);
-        seedInitialProducts(INITIAL_PRODUCTS_DATA).catch(console.error);
-      }
+      callback(productsList);
     },
     (error) => {
       console.error('Error listening to products from Firestore:', error);
-      callback(INITIAL_PRODUCTS_DATA);
+      callback([]);
     }
   );
 }

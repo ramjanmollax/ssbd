@@ -180,15 +180,8 @@ export default function App() {
     ? 'shipping'
     : 'privacy';
 
-  // Products State (Real-time synced with Firebase Firestore & Cached)
-  const [productsList, setProductsList] = useState<Product[]>(() => {
-    try {
-      const saved = safeStorage.getItem('ssseed_cached_products') || safeStorage.getItem('seedhaven_cached_products');
-      return saved ? JSON.parse(saved) : [];
-    } catch {
-      return [];
-    }
-  });
+  // Products State (Real-time synced with Firebase Firestore)
+  const [productsList, setProductsList] = useState<Product[]>([]);
 
   // Active Product derived from route parameter
   const activeProduct = useMemo(() => {
@@ -356,6 +349,15 @@ export default function App() {
       }
     });
   };
+
+  useEffect(() => {
+    try {
+      safeStorage.removeItem('ssseed_cached_products');
+      safeStorage.removeItem('seedhaven_cached_products');
+      safeStorage.removeItem('ssseed_admin_products');
+      safeStorage.removeItem('seedhaven_admin_products');
+    } catch {}
+  }, []);
 
   // Subscribe to Firebase Firestore live products, categories, banners, homepage, footer, notice, contact, policy, SEO, store settings & orders
   useEffect(() => {
