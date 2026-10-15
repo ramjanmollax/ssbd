@@ -428,20 +428,6 @@ export const MenuDrawer: React.FC<MenuDrawerProps> = ({
               </button>
             )}
 
-            {/* 10. এডমিন প্যানেল */}
-            {menu.menuAdminLinkEnabled !== false && (
-              <a
-                href="/admin.html"
-                onClick={() => onClose()}
-                className="w-full bg-emerald-50 hover:bg-emerald-100 rounded-xl px-3 py-2.5 text-emerald-900 font-bold flex items-center justify-between transition-colors cursor-pointer text-left border border-emerald-200/80 shadow-2xs mt-1"
-              >
-                <div className="flex items-center gap-2.5 min-w-0">
-                  <ShieldCheck size={18} className="text-emerald-700 shrink-0" />
-                  <span className="text-xs sm:text-sm font-bold text-emerald-950 truncate">এডমিন প্যানেল (Admin Panel)</span>
-                </div>
-                <ChevronRight size={16} className="text-emerald-700 shrink-0" />
-              </a>
-            )}
           </div>
         </div>
 
