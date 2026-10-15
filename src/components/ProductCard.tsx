@@ -52,27 +52,47 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   ordersList = [],
   priority = false,
 }) => {
-  const initialImageUrl = product.image ? getOptimizedImageUrl(product.image) : '';
-  const [currentImgSrc, setCurrentImgSrc] = useState<string>(initialImageUrl);
-  const [isLoaded, setIsLoaded] = useState<boolean>(() => !!initialImageUrl && loadedImagesCache.has(initialImageUrl));
+  const getInitialSrc = (prod: Product) => {
+    const raw = prod.image || (prod.images && prod.images.length > 0 ? prod.images[0] : '') || '';
+    return raw ? getOptimizedImageUrl(raw) : '';
+  };
+
+  const [currentImgSrc, setCurrentImgSrc] = useState<string>(() => getInitialSrc(product));
+  const [isLoaded, setIsLoaded] = useState<boolean>(() => {
+    const src = getInitialSrc(product);
+    return !!src && (loadedImagesCache.has(src) || src.startsWith('data:') || src.startsWith('/'));
+  });
   const [hasError, setHasError] = useState<boolean>(false);
 
   // Sync if product image changes
   React.useEffect(() => {
-    const nextUrl = product.image ? getOptimizedImageUrl(product.image) : '';
+    const nextUrl = getInitialSrc(product);
     setCurrentImgSrc(nextUrl);
-    setIsLoaded(!!nextUrl && loadedImagesCache.has(nextUrl));
+    setIsLoaded(!!nextUrl && (loadedImagesCache.has(nextUrl) || nextUrl.startsWith('data:') || nextUrl.startsWith('/')));
     setHasError(false);
-  }, [product.image]);
+  }, [product.image, product.images]);
 
   const handleImageError = () => {
-    // If proxy URL failed, fallback to original direct URL
+    // 1. If proxy URL failed, fallback to original direct URL
     if (currentImgSrc.includes('/api/image-proxy') && product.image) {
       const fallback = getFallbackImageUrl(currentImgSrc, product.image);
       if (fallback && fallback !== currentImgSrc) {
         setCurrentImgSrc(fallback);
         return;
       }
+    }
+    // 2. If multiple images are provided, try alternate gallery image
+    if (Array.isArray(product.images) && product.images.length > 1) {
+      const altImg = product.images.find(img => img && img !== currentImgSrc && img !== product.image);
+      if (altImg) {
+        setCurrentImgSrc(getOptimizedImageUrl(altImg));
+        return;
+      }
+    }
+    // 3. Fallback to raw product.image if current was something else
+    if (product.image && currentImgSrc !== product.image) {
+      setCurrentImgSrc(product.image);
+      return;
     }
     setHasError(true);
     setIsLoaded(true);
@@ -90,6 +110,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     product.originalPrice && product.originalPrice > product.price
       ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
       : 0;
+
+  const isLocalOrData = currentImgSrc.startsWith('data:') || currentImgSrc.startsWith('/') || currentImgSrc.startsWith('blob:');
+  const shouldEagerLoad = priority || isLocalOrData;
 
   const handlePreload = () => {
     if (currentImgSrc && !isLoaded) {
@@ -141,8 +164,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             src={currentImgSrc}
             alt={product.name}
             className="w-full h-full object-cover group-hover/img:scale-108 transition-transform duration-300 relative z-10"
-            loading={priority ? 'eager' : 'lazy'}
-            fetchPriority={priority ? 'high' : 'auto'}
+            loading={shouldEagerLoad ? 'eager' : 'lazy'}
+            fetchPriority={shouldEagerLoad ? 'high' : 'auto'}
             decoding="async"
             onLoad={() => {
               if (currentImgSrc) loadedImagesCache.add(currentImgSrc);
@@ -151,8 +174,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             onError={handleImageError}
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-5xl bg-emerald-50/60">
-            {product.imageEmoji || '🌱'}
+          <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-emerald-50 via-teal-50 to-slate-100 p-4 text-center select-none">
+            <span className="text-4xl mb-1 drop-shadow-xs">{product.imageEmoji || '🌱'}</span>
+            <span className="text-[10px] font-bold text-emerald-800 line-clamp-1">{product.name || 'বীজ প্যাকেট'}</span>
+            <span className="text-[9px] text-slate-400 mt-0.5">Ss Seed Shop</span>
           </div>
         )}
 

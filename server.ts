@@ -1474,7 +1474,7 @@ async function startServer() {
       appType: 'spa',
     });
     // Express route handler for Admin Panel routes before Vite middlewares
-    app.get(['/admin', '/admin.html', '/panel'], (req, res) => {
+    app.get(['/admin', '/admin.html', '/panel', '/admin/*', '/panel/*'], (req, res) => {
       const rootAdmin = path.join(process.cwd(), 'admin.html');
       if (fs.existsSync(rootAdmin)) {
         return res.sendFile(rootAdmin);
@@ -1488,7 +1488,7 @@ async function startServer() {
     // Fallback for direct URL page refreshes in dev mode
     app.use('*', async (req, res, next) => {
       if (req.path.startsWith('/api/')) return next();
-      if (req.path === '/admin' || req.path === '/admin.html' || req.path === '/panel') {
+      if (req.path === '/admin' || req.path === '/admin.html' || req.path === '/panel' || req.path.startsWith('/admin/') || req.path.startsWith('/panel/')) {
         const rootAdmin = path.join(process.cwd(), 'admin.html');
         if (fs.existsSync(rootAdmin)) return res.sendFile(rootAdmin);
       }
@@ -1510,7 +1510,17 @@ async function startServer() {
   } else {
     const distPath = path.join(process.cwd(), 'dist');
     app.use(express.static(distPath));
+
+    app.get(['/admin', '/admin.html', '/panel', '/admin/*', '/panel/*'], (req, res) => {
+      const distAdmin = path.join(distPath, 'admin.html');
+      if (fs.existsSync(distAdmin)) return res.sendFile(distAdmin);
+      const rootAdmin = path.join(process.cwd(), 'admin.html');
+      if (fs.existsSync(rootAdmin)) return res.sendFile(rootAdmin);
+      return res.status(404).send('Admin panel file not found');
+    });
+
     app.get('*', (req, res) => {
+      if (req.path.startsWith('/api/')) return res.status(404).json({ error: 'Not found' });
       res.sendFile(path.join(distPath, 'index.html'));
     });
   }

@@ -1140,7 +1140,10 @@
       "description": "বাণিজ্যিক চাষের উপযোগী অধিক ফলনশীল রানি লঙ্কা। জাত: রানি লঙ্কা",
       "stock": 100,
       "cultivationGuide": "চারা তৈরি করে সারিবদ্ধভাবে রোপণ করুন; পর্যাপ্ত রোদ ও নিয়মিত সেচ দিন।",
-      "image": ""
+      "image": "https://abseed.com.bd/product-image/morich-f1/1/temporary-1234/ab-seed-temp-1234-product-6.webp",
+      "images": [
+        "https://abseed.com.bd/product-image/morich-f1/1/temporary-1234/ab-seed-temp-1234-product-6.webp"
+      ]
     },
     {
       "id": "p-1791872343856-71",
@@ -1297,7 +1300,7 @@
       "originalPrice": 100,
       "stock": 100,
       "seedType": "উফশী/উন্নত জাত",
-      "cultivationGuide": "ঝুরঝুরে মাটিতে বীজ বুনুন; পর্যাপ্ত রোদ দিন এবং গোড়ায় পরিমিত পানি দিন।",
+      "cultivationGuide": "ঝুরঝ��রে মাটিতে বীজ বুনুন; পর্যাপ্ত রোদ দিন এবং গোড়ায় পরিমিত পানি দিন।",
       "reviewsCount": 42,
       "image": "https://abseed.com.bd/product-image/%E0%A6%AA%E0%A6%BF%E0%A6%99%E0%A7%8D%E0%A6%95-%E0%A6%9C%E0%A6%BF%E0%A6%A8%E0%A6%BF%E0%A6%AF%E0%A6%BC%E0%A6%BE-%E0%A6%AB%E0%A7%81%E0%A6%B2%E0%A7%87%E0%A6%B0-%E0%A6%AC%E0%A7%80%E0%A6%9C/1/1775372564385-hph8kqv.webp",
       "description": "মিষ্টি গোলাপি রঙের দীর্ঘস্থায়ী ফোটা জিনিয়া ফুল। জাত: পিঙ্ক জিনিয়া"
@@ -2159,5 +2162,5 @@
       "deliveryNote": "সারা বাংলাদেশে ফ্ল্যাট হোম ডেলিভারি চার্জ মাত্র ৫৫ টাকা।"
     }
   },
-  "updatedAt": "2026-10-15T07:40:00.000Z"
+  "updatedAt": "2026-10-15T08:14:43.914Z"
 }

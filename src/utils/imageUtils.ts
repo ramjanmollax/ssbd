@@ -23,11 +23,12 @@ export function getOptimizedImageUrl(url?: string | null): string {
     return trimmed;
   }
 
-  // If it's a remote URL (such as abseed.com.bd, external CDN, etc.), proxy through local high-speed disk cache
-  if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
-    return `/api/image-proxy?url=${encodeURIComponent(trimmed)}`;
+  // Local /uploads/ files should be served directly without proxying
+  if (trimmed.includes('/uploads/')) {
+    return trimmed;
   }
 
+  // Return direct URL so browser decodes it natively with zero proxy bottlenecks
   return trimmed;
 }
 

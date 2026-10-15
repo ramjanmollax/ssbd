@@ -237,6 +237,7 @@ export default function App() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [productLimit, setProductLimit] = useState<number>(25);
+  const [expandedCategoryIds, setExpandedCategoryIds] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     setProductLimit(25);
@@ -1243,37 +1244,44 @@ export default function App() {
                 ) : (
                   <>
                     {selectedCategory === 'all' && !searchQuery ? (
-                      <div className="space-y-8">
-                        {categoriesList.map((cat) => {
-                          const catProducts = filteredProducts
-                            .slice(0, productLimit)
-                            .filter((p) => {
-                              const c = (p.category || '').toLowerCase();
-                              const target = cat.id.toLowerCase();
-                              return c === target || (target === 'all');
-                            });
+                      <div className="space-y-10">
+                        {categoriesList.filter((c) => c.id !== 'all' && c.id !== 'সকল').map((cat) => {
+                          const catProducts = filteredProducts.filter((p) => {
+                            const c = (p.category || '').toLowerCase();
+                            const target = cat.id.toLowerCase();
+                            if (target === 'veg') return c.includes('veg') || c.includes('সবজি');
+                            if (target === 'fruit') return c.includes('fruit') || c.includes('fol') || c.includes('ফল');
+                            if (target === 'ful') return c.includes('flow') || c.includes('ful') || c.includes('ফুল');
+                            return c === target;
+                          });
                           if (catProducts.length === 0) return null;
+                          const isExpanded = !!expandedCategoryIds[cat.id];
+                          const visibleProducts = isExpanded ? catProducts : catProducts.slice(0, 8);
+                          const remainingCount = catProducts.length - 8;
+
                           return (
-                            <div key={cat.id} className="space-y-3">
-                              {/* Category Title Banner: "প্রতি টা ক্যাটাগরির প্রোডাক্ট এর আগে টাইটেল দিয়ে দিবা যে এই ক্যাটাগরির প্রোডাক্ট এখানে" */}
-                              <div className="flex items-center justify-between bg-emerald-50/60 border-l-4 border-emerald-600 px-4 py-2.5 rounded-r-2xl shadow-sm mb-4">
+                            <div key={cat.id} id={`cat-banner-${cat.id}`} className="space-y-3.5 scroll-mt-24">
+                              {/* Category Title Banner */}
+                              <div className="flex items-center justify-between bg-emerald-50/70 border-l-4 border-emerald-600 px-4 py-2.5 rounded-r-2xl shadow-2xs mb-3">
                                 <h3 className="text-sm sm:text-lg font-black text-[#153a1a] flex items-center gap-2.5">
                                   <span className="w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-2xs text-lg">{cat.iconEmoji || '🌱'}</span>
-                                  <span>{cat.name} ক্যাটাগরির পণ্যসমূহ এখানে</span>
+                                  <span>{cat.name} ক্যাটাগরির পণ্যসমূহ ({catProducts.length}টি)</span>
                                 </h3>
                                 <button
+                                  type="button"
                                   onClick={() => {
                                     setSelectedCategory(cat.id);
                                     navigate(`/category/${cat.id}`);
                                   }}
                                   className="text-xs sm:text-sm font-extrabold text-emerald-700 hover:text-emerald-900 flex items-center gap-1 group/btn transition-colors cursor-pointer"
                                 >
-                                  <span>সবগুলো দেখুন</span>
+                                  <span>আলাদা পেজে দেখুন</span>
                                   <span className="group-hover/btn:translate-x-1 transition-transform">→</span>
                                 </button>
                               </div>
+
                               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 md:gap-5">
-                                {catProducts.slice(0, 10).map((product, idx) => (
+                                {visibleProducts.map((product, idx) => (
                                   <ProductCard
                                     key={product.id}
                                     product={product}
@@ -1295,6 +1303,42 @@ export default function App() {
                                   />
                                 ))}
                               </div>
+
+                              {remainingCount > 0 && (
+                                <div className="text-center pt-2">
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      const willExpand = !isExpanded;
+                                      setExpandedCategoryIds((prev) => ({
+                                        ...prev,
+                                        [cat.id]: willExpand,
+                                      }));
+
+                                      if (willExpand) {
+                                        // Smoothly scroll DOWN to bring newly loaded products into view
+                                        setTimeout(() => {
+                                          window.scrollBy({ top: 360, behavior: 'smooth' });
+                                        }, 100);
+                                      } else {
+                                        // When collapsing, scroll back to category header
+                                        const headerEl = document.getElementById(`cat-banner-${cat.id}`);
+                                        if (headerEl) {
+                                          headerEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                        }
+                                      }
+                                    }}
+                                    className="px-5 py-2 text-xs sm:text-sm font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-xl transition-all cursor-pointer inline-flex items-center gap-1.5 shadow-2xs active:scale-95"
+                                  >
+                                    <span>
+                                      {isExpanded
+                                        ? `${cat.name} সংক্ষেপ করুন ↑`
+                                        : `${cat.name} ক্যাটাগরির আরো ${remainingCount}টি পণ্য দেখুন ↓`}
+                                    </span>
+                                  </button>
+                                </div>
+                              )}
                             </div>
                           );
                         })}
@@ -1325,12 +1369,20 @@ export default function App() {
                       </div>
                     )}
 
-                    {/* More Products Button (After 25 products) */}
-                    {filteredProducts.length > productLimit && (
+                    {/* More Products Button for Filtered / Category Page */}
+                    {(selectedCategory !== 'all' || searchQuery) && filteredProducts.length > productLimit && (
                       <div className="text-center my-10">
                         <button
-                          onClick={() => setProductLimit((prev) => prev + 25)}
-                          className="px-8 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-2xl shadow-md transition-all cursor-pointer text-sm sm:text-base inline-flex items-center gap-2"
+                          type="button"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setProductLimit((prev) => prev + 25);
+                            // Smoothly scroll DOWN to reveal newly appended products below
+                            setTimeout(() => {
+                              window.scrollBy({ top: 380, behavior: 'smooth' });
+                            }, 100);
+                          }}
+                          className="px-8 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-2xl shadow-md transition-all cursor-pointer text-sm sm:text-base inline-flex items-center gap-2 active:scale-95"
                         >
                           <span>আরো পণ্য দেখুন ({filteredProducts.length - productLimit} টি বাকি)</span>
                           <span>↓</span>

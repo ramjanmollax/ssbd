@@ -1110,7 +1110,7 @@ export const INITIAL_PRODUCTS_DATA: Product[] = [
     "name": "হাইব্রিড মরিচ, রানি লঙ্কা",
     "originalPrice": 250,
     "price": 190,
-    "image": "",
+    "image": "https://abseed.com.bd/product-image/morich-f1/1/temporary-1234/ab-seed-temp-1234-product-6.webp",
     "description": "বাণিজ্যিক চাষের উপযোগী অধিক ফলনশীল রানি লঙ্কা। জাত: রানি লঙ্কা",
     "seedType": "হাইব্রিড",
     "cultivationGuide": "চারা তৈরি করে সারিবদ্ধভাবে রোপণ করুন; পর্যাপ্ত রোদ ও নিয়মিত সেচ দিন।",
