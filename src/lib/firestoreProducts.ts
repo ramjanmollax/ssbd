@@ -1069,9 +1069,26 @@ export async function updateProductFirebase(id: string, data: Partial<Product>) 
   await updateDoc(docRef, data);
 }
 
+// Helper to recursively strip undefined properties for Firestore safety
+function sanitizeForFirestore(obj: any): any {
+  if (obj === undefined) return null;
+  if (obj === null || typeof obj !== 'object') return obj;
+  if (obj instanceof Date) return obj;
+  if (Array.isArray(obj)) {
+    return obj.map((item) => sanitizeForFirestore(item));
+  }
+  const clean: Record<string, any> = {};
+  for (const [key, value] of Object.entries(obj)) {
+    if (value !== undefined) {
+      clean[key] = sanitizeForFirestore(value);
+    }
+  }
+  return clean;
+}
+
 // Save order to Firestore
 export async function saveOrderFirebase(order: OrderDetails) {
-  const cleanOrder: Record<string, any> = {
+  const rawOrderData: Record<string, any> = {
     orderId: order.orderId || ('SS-' + Math.floor(100000 + Math.random() * 900000)),
     customerName: order.customerName || '',
     phone: order.phone || '',
@@ -1089,20 +1106,17 @@ export async function saveOrderFirebase(order: OrderDetails) {
     deliveryFee: Number(order.deliveryFee || 0),
     total: Number(order.total || 0),
     paymentMethod: order.paymentMethod || 'cod',
-    createdAt: serverTimestamp(),
+    senderNumber: order.senderNumber || '',
+    transactionId: order.transactionId || '',
+    courierStatus: order.courierStatus || '',
+    consignmentId: order.consignmentId || '',
+    trackingCode: order.trackingCode || '',
+    courierSubmittedAt: order.courierSubmittedAt || '',
+    courierError: order.courierError || '',
   };
 
-  if (order.senderNumber !== undefined && order.senderNumber !== null && order.senderNumber !== '') {
-    cleanOrder.senderNumber = order.senderNumber;
-  }
-  if (order.transactionId !== undefined && order.transactionId !== null && order.transactionId !== '') {
-    cleanOrder.transactionId = order.transactionId;
-  }
-  if (order.courierStatus) cleanOrder.courierStatus = order.courierStatus;
-  if (order.consignmentId) cleanOrder.consignmentId = order.consignmentId;
-  if (order.trackingCode) cleanOrder.trackingCode = order.trackingCode;
-  if (order.courierSubmittedAt) cleanOrder.courierSubmittedAt = order.courierSubmittedAt;
-  if (order.courierError) cleanOrder.courierError = order.courierError;
+  const cleanOrder = sanitizeForFirestore(rawOrderData);
+  cleanOrder.createdAt = serverTimestamp();
 
   try {
     const colRef = collection(db, ORDERS_COLLECTION);
@@ -1117,7 +1131,8 @@ export async function saveOrderFirebase(order: OrderDetails) {
       const docRef = doc(db, ORDERS_COLLECTION, cleanOrder.orderId);
       await setDoc(docRef, cleanOrder, { merge: true });
       return cleanOrder.orderId;
-    } catch {
+    } catch (setErr: any) {
+      console.warn('Firestore setDoc info:', setErr?.message || setErr);
       // Local backup save so no customer order is ever lost
       try {
         const localOrders = JSON.parse(localStorage.getItem('ss_seed_shop_local_orders') || '[]');

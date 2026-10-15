@@ -880,18 +880,24 @@ export default function App() {
   };
 
   const handlePlaceOrder = async (orderDetails: OrderDetails) => {
-    // Save order to Firebase Firestore
-    await saveOrderFirebase(orderDetails);
-
-    // Sync order to backend API for local persistence & Steadfast courier auto-dispatch
+    // 1. Sync order to backend API immediately for local persistence & Steadfast courier auto-dispatch
     try {
       fetch('/api/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(orderDetails),
       }).catch((e) => console.warn('API order dispatch warning:', e));
-    } catch {
-      // Ignore background sync errors
+    } catch (e) {
+      console.warn('API order dispatch catch:', e);
+    }
+
+    // 2. Save order to Firebase Firestore with safety timeout so checkout never hangs
+    try {
+      const savePromise = saveOrderFirebase(orderDetails);
+      const timeoutPromise = new Promise((resolve) => setTimeout(() => resolve('timeout'), 4000));
+      await Promise.race([savePromise, timeoutPromise]);
+    } catch (err) {
+      console.warn('Firestore save order info:', err);
     }
 
     trackPurchase(orderDetails.orderId, orderDetails.total, orderDetails.items);
