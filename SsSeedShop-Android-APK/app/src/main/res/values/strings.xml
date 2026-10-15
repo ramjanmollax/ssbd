@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Ss Seed Shop Admin</string>
+    <string name="offline_title">ইন্টারনেট সংযোগ নেই</string>
+    <string name="offline_desc">অনুগ্রহ করে আপনার ইন্টারনেট সংযোগ চেক করুন এবং পুনরায় চেষ্টা করুন।</string>
+    <string name="retry">আবার চেষ্টা করুন</string>
+    <string name="order_notification_channel_name">নতুন অর্ডার ও নোটিফিকেশন</string>
+    <string name="order_notification_channel_desc">Ss Seed Shop Admin নতুন অর্ডারের সতর্কবার্তা</string>
+</resources>
