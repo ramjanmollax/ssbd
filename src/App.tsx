@@ -1417,6 +1417,10 @@ export default function App() {
             navigate('/compare');
           }}
           compareCount={compareProducts.length}
+          onNavigateHome={() => {
+            handleOpenMenu(false);
+            navigate('/');
+          }}
         />
 
         {/* Wishlist Modal */}

@@ -74,7 +74,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenSearch,
   onOpenTracker,
   onNavigateHome,
-  menuBarEnabled = false,
+  menuBarEnabled = true,
 }) => {
   const [isAnimating, setIsAnimating] = useState(false);
   const [showUserDropdown, setShowUserDropdown] = useState(false);

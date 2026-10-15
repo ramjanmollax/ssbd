@@ -14,10 +14,19 @@ import {
 } from 'firebase/firestore';
 import { db } from './firebase';
 import { Product, Category, OrderDetails, Banner, Review, Coupon } from '../types';
+import { INITIAL_PRODUCTS_DATA } from '../data/initialProducts';
 
 const PRODUCTS_COLLECTION = 'products';
 const CATEGORIES_COLLECTION = 'categories';
 const ORDERS_COLLECTION = 'orders';
+
+export const DEFAULT_CATEGORIES: Category[] = [
+  { id: 'all', name: 'সকল বীজ', iconEmoji: '🌾', subtitle: 'সব ধরনের বীজ ও সামগ্রী', itemCount: 0 },
+  { id: 'veg', name: 'সবজি বীজ', iconEmoji: '🥦', subtitle: 'টাটকা সবজির সেরা বীজ', itemCount: 0 },
+  { id: 'ful', name: 'ফুলের বীজ', iconEmoji: '🌸', subtitle: 'রঙিন ফুলের বাহারি বীজ', itemCount: 0 },
+  { id: 'fruit', name: 'ফুলের বীজ', iconEmoji: '🍉', subtitle: 'মিষ্টি ফলের উন্নত বীজ', itemCount: 0 },
+  { id: 'other', name: 'বাগান সামগ্রী', iconEmoji: '🛠️', subtitle: 'টব ও চাষের প্রয়োজনীয় সামগ্রী', itemCount: 0 },
+];
 
 export interface HomepageSettings {
   topBarEnabled?: boolean;
@@ -910,7 +919,7 @@ export function subscribeToCategories(callback: (categories: Category[]) => void
     colRef,
     async (snapshot) => {
       if (snapshot.empty) {
-        callback([]);
+        callback(DEFAULT_CATEGORIES);
         return;
       }
 
@@ -928,11 +937,11 @@ export function subscribeToCategories(callback: (categories: Category[]) => void
         });
       });
 
-      callback(categoriesList);
+      callback(categoriesList.length > 0 ? categoriesList : DEFAULT_CATEGORIES);
     },
     (error) => {
       console.error('Error listening to categories from Firestore:', error);
-      callback([]);
+      callback(DEFAULT_CATEGORIES);
     }
   );
 }
@@ -967,7 +976,9 @@ export function subscribeToProducts(callback: (products: Product[]) => void) {
     colRef,
     async (snapshot) => {
       if (snapshot.empty) {
-        callback([]);
+        callback(INITIAL_PRODUCTS_DATA);
+        // Automatically seed initial products to Firestore in background
+        seedInitialProducts(INITIAL_PRODUCTS_DATA).catch(console.error);
         return;
       }
 
@@ -1007,11 +1018,16 @@ export function subscribeToProducts(callback: (products: Product[]) => void) {
         });
       });
 
-      callback(productsList);
+      if (productsList.length > 0) {
+        callback(productsList);
+      } else {
+        callback(INITIAL_PRODUCTS_DATA);
+        seedInitialProducts(INITIAL_PRODUCTS_DATA).catch(console.error);
+      }
     },
     (error) => {
       console.error('Error listening to products from Firestore:', error);
-      callback([]);
+      callback(INITIAL_PRODUCTS_DATA);
     }
   );
 }
