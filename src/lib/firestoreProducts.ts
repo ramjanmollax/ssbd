@@ -1109,6 +1109,16 @@ export async function saveOrderFirebase(order: OrderDetails) {
   };
 
   const cleanOrder = sanitizeForFirestore(rawOrderData);
+
+  // Send to API endpoint in background for instant backend backup & courier handling
+  try {
+    fetch('/api/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(rawOrderData),
+    }).catch((e) => console.warn('API order backup sync notice:', e));
+  } catch (e) {}
+
   cleanOrder.createdAt = serverTimestamp();
 
   try {
