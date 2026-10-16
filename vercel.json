@@ -1,4 +1,5 @@
 {
+  "framework": "vite",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "rewrites": [
@@ -13,18 +14,6 @@
     {
       "source": "/panel",
       "destination": "/admin.html"
-    },
-    {
-      "source": "/admin/(.*)",
-      "destination": "/admin.html"
-    },
-    {
-      "source": "/panel/(.*)",
-      "destination": "/admin.html"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
     }
   ]
 }
