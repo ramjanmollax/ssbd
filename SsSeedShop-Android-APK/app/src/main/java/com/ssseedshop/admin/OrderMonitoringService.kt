@@ -136,34 +136,50 @@ class OrderMonitoringService : Service() {
     }
 
     private fun checkNewOrders() {
-        val targetUrl = "${MainActivity.LIVE_SERVER_URL}/api/orders"
-        val connection = (URL(targetUrl).openConnection() as HttpURLConnection).apply {
-            requestMethod = "GET"
-            connectTimeout = 8000
-            readTimeout = 8000
-            setRequestProperty("Accept", "application/json")
+        val candidateUrls = listOf(
+            "${MainActivity.LIVE_SERVER_URL}/api/orders",
+            "https://ssbd.vercel.app/api/orders",
+            "https://ais-pre-kcfdbxegghu2jsyras4ikm-346601077198.asia-southeast1.run.app/api/orders"
+        ).distinct()
+
+        var ordersArray: JSONArray? = null
+
+        for (targetUrl in candidateUrls) {
+            try {
+                val connection = (URL(targetUrl).openConnection() as HttpURLConnection).apply {
+                    requestMethod = "GET"
+                    connectTimeout = 6000
+                    readTimeout = 6000
+                    setRequestProperty("Accept", "application/json")
+                }
+                if (connection.responseCode == 200) {
+                    val reader = BufferedReader(InputStreamReader(connection.inputStream))
+                    val responseStr = reader.use { it.readText() }
+                    ordersArray = JSONArray(responseStr)
+                    break
+                }
+            } catch (e: Exception) {
+                // Try next domain
+            }
         }
 
+        if (ordersArray == null) return
+
         try {
-            if (connection.responseCode == 200) {
-                val reader = BufferedReader(InputStreamReader(connection.inputStream))
-                val responseStr = reader.use { it.readText() }
-                val ordersArray = JSONArray(responseStr)
+            val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
+            val knownSet = HashSet(prefs.getStringSet(KEY_KNOWN_ORDERS, emptySet()) ?: emptySet())
 
-                val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
-                val knownSet = HashSet(prefs.getStringSet(KEY_KNOWN_ORDERS, emptySet()) ?: emptySet())
-
-                if (isFirstCheck) {
-                    for (i in 0 until ordersArray.length()) {
-                        val orderObj = ordersArray.optJSONObject(i) ?: continue
-                        val oId = orderObj.optString("orderId", orderObj.optString("id", ""))
-                        if (oId.isNotEmpty()) knownSet.add(oId)
-                    }
-                    prefs.edit().putStringSet(KEY_KNOWN_ORDERS, knownSet).apply()
-                    isFirstCheck = false
-                    Log.d(TAG, "Initial order set loaded: ${knownSet.size} orders.")
-                    return
+            if (isFirstCheck) {
+                for (i in 0 until ordersArray.length()) {
+                    val orderObj = ordersArray.optJSONObject(i) ?: continue
+                    val oId = orderObj.optString("orderId", orderObj.optString("id", ""))
+                    if (oId.isNotEmpty()) knownSet.add(oId)
                 }
+                prefs.edit().putStringSet(KEY_KNOWN_ORDERS, knownSet).apply()
+                isFirstCheck = false
+                Log.d(TAG, "Initial order set loaded: ${knownSet.size} orders.")
+                return
+            }
 
                 val newOrdersToNotify = mutableListOf<JSONObject>()
 

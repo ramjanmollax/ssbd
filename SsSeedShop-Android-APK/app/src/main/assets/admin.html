@@ -158,14 +158,6 @@
       <button data-view="reports" class="nav-item w-full px-3 py-2.5 rounded-xl flex items-center gap-3 text-sm font-semibold"><i data-lucide="chart-no-axes-combined" class="w-4 h-4"></i>রিপোর্ট</button>
     </nav>
 
-    <div class="p-4 border-t border-slate-200 space-y-2">
-      <a href="/download-admin-apk" download="SsSeedShop-Android-APK.zip" class="w-full py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-950 border border-amber-200 text-xs font-bold flex items-center justify-center gap-2 shadow-2xs">
-        <i data-lucide="smartphone" class="w-4 h-4 text-amber-600"></i> আপডেট Android App ডাউনলোড
-      </a>
-      <a href="https://ais-pre-kcfdbxegghu2jsyras4ikm-346601077198.asia-southeast1.run.app/" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 text-sm font-bold flex items-center justify-center gap-2">
-        <i data-lucide="external-link" class="w-4 h-4"></i> সাইট ভিজিট করুন
-      </a>
-    </div>
   </aside>
 
   <!-- MAIN -->
@@ -5056,9 +5048,7 @@
     };
 
     const app = initializeApp(firebaseConfig);
-    const db = initializeFirestore(app, {
-      experimentalAutoDetectLongPolling: true
-    }, "(default)");
+    const db = getFirestore(app);
 
     let storage = null;
     try {
@@ -5436,7 +5426,7 @@
     let knownOrderIds = new Set();
     let isInitialOrdersLoad = true;
 
-    function playOrderChime() {
+    function unlockAudioContext() {
       try {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         if (!audioCtx && AudioContext) {
@@ -5445,6 +5435,14 @@
         if (audioCtx && audioCtx.state === 'suspended') {
           audioCtx.resume();
         }
+      } catch(e) {}
+    }
+    window.addEventListener('click', unlockAudioContext);
+    window.addEventListener('touchstart', unlockAudioContext);
+
+    function playOrderChime() {
+      try {
+        unlockAudioContext();
         if (!audioCtx) return;
 
         const now = audioCtx.currentTime;
@@ -5684,6 +5682,51 @@
       console.warn('Firestore orders error (quota/network):', e);
       loadServerBackup();
     });
+
+    // 🔄 Fast 4-Second Server API Backup Poller (Guarantees Instant Order Alerts)
+    async function pollServerOrders() {
+      try {
+        const res = await fetch('/api/orders');
+        if (res.ok) {
+          const apiOrders = await res.json();
+          if (Array.isArray(apiOrders) && apiOrders.length > 0) {
+            let hasNew = false;
+            apiOrders.forEach(o => {
+              const key = o.orderId || o.id;
+              if (key && !knownOrderIds.has(key)) {
+                knownOrderIds.add(key);
+                if (o.id) knownOrderIds.add(o.id);
+                if (o.orderId) knownOrderIds.add(o.orderId);
+                hasNew = true;
+                if (!isInitialOrdersLoad) {
+                  triggerNewOrderAlert(o);
+                }
+              }
+            });
+
+            // Merge server orders with current orders
+            const mergedMap = new Map();
+            (orders || []).forEach(o => {
+              const k = o.orderId || o.id;
+              if (k) mergedMap.set(k, o);
+            });
+            apiOrders.forEach(o => {
+              const k = o.orderId || o.id;
+              if (k) mergedMap.set(k, { ...mergedMap.get(k), ...o });
+            });
+            const updatedOrdersList = Array.from(mergedMap.values());
+            if (updatedOrdersList.length !== orders.length || hasNew) {
+              orders = updatedOrdersList;
+              renderOrders(); refreshDashboard(); renderCustomers(); renderReports();
+            }
+          }
+        }
+      } catch (e) {
+        console.warn('Poll server orders notice:', e);
+      }
+    }
+
+    setInterval(pollServerOrders, 4000);
 
     onSnapshot(collection(db,'categories'), snap=>{
       categories = snap.docs.map(d=>({id:d.id,...d.data()}));

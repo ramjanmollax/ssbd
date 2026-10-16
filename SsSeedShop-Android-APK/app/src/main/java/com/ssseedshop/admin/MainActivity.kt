@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
     private var backPressedTime: Long = 0
 
     companion object {
-        const val LIVE_SERVER_URL = "https://ais-pre-kcfdbxegghu2jsyras4ikm-346601077198.asia-southeast1.run.app"
+        const val LIVE_SERVER_URL = "https://ssseed.vercel.app"
     }
 
     // File Chooser Launcher for <input type="file"> (Product Images, Receipts, etc.)

@@ -1098,6 +1098,11 @@ export async function saveOrderFirebase(order: OrderDetails) {
     discount: Number(order.discount || 0),
     deliveryFee: Number(order.deliveryFee || 0),
     total: Number(order.total || 0),
+    grandTotal: Number(order.total || 0),
+    customer: {
+      name: String(order.customerName || ''),
+      phone: String(order.phone || ''),
+    },
     paymentMethod: order.paymentMethod || 'cod',
     senderNumber: order.senderNumber || '',
     transactionId: order.transactionId || '',
@@ -1431,8 +1436,10 @@ export async function recordVisitor() {
       count: increment(1),
       lastVisit: serverTimestamp()
     }, { merge: true });
-  } catch (e) {
-    console.error('Error recording visitor:', e);
+  } catch (e: any) {
+    if (e?.code !== 'permission-denied') {
+      console.warn('Visitor record notice:', e?.message || e);
+    }
   }
 }
 
