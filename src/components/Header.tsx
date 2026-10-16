@@ -175,38 +175,18 @@ export const Header: React.FC<HeaderProps> = ({
             title={storeSettings?.name || "Ss Seed Shop"}
           >
             {storeSettings?.logo && !logoError ? (
-              <>
-                <img
-                  src={storeSettings.logo}
-                  alt={storeSettings?.name || "Ss Seed Shop"}
-                  onError={() => setLogoError(true)}
-                  className="h-8 sm:h-9 md:h-10 w-auto max-w-[80px] sm:max-w-[110px] md:max-w-[150px] object-contain shrink-0 rounded-md"
-                />
-                <div className="flex flex-col justify-center leading-none min-w-0">
-                  <div className="font-black text-base sm:text-lg md:text-xl tracking-tight text-slate-900 truncate max-w-[125px] sm:max-w-[180px] md:max-w-[240px]">
-                    {storeSettings?.name || "Ss Seed Shop"}
-                  </div>
-                  <span className="hidden sm:block text-[9px] font-bold text-slate-500 tracking-wider uppercase mt-0.5 truncate max-w-[180px]">
-                    {homepageSettings?.topBarTagline || "বিশুদ্ধ বীজ ও গার্ডেন শপ"}
-                  </span>
-                </div>
-              </>
+              <img
+                src={storeSettings.logo}
+                alt={storeSettings?.name || "Ss Seed Shop"}
+                onError={() => setLogoError(true)}
+                className="h-8 sm:h-9 md:h-10 w-auto max-w-[120px] sm:max-w-[160px] md:max-w-[200px] object-contain shrink-0 rounded-md"
+              />
             ) : (
-              <>
-                <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-xs shrink-0 text-base sm:text-lg">
-                  🌱
-                </div>
-                {/* Brand Short Form: SS SEED */}
-                <div className="flex flex-col justify-center leading-none min-w-0">
-                  <div className="font-black text-xl sm:text-2xl tracking-tight flex items-center">
-                    <span className="text-slate-900">SS</span>
-                    <span className="text-emerald-600 font-extrabold ml-1">SEED</span>
-                  </div>
-                  <span className="hidden sm:block text-[9px] font-bold text-slate-500 tracking-wider uppercase mt-0.5">
-                    {storeSettings?.name || "Ss Seed Shop"}
-                  </span>
-                </div>
-              </>
+              <img
+                src="/logo.svg"
+                alt={storeSettings?.name || "Ss Seed Shop"}
+                className="h-8 sm:h-9 md:h-10 w-auto max-w-[140px] sm:max-w-[180px] md:max-w-[220px] object-contain shrink-0"
+              />
             )}
           </a>
         </div>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <title>Ss Seed Shop</title>
+  <script>
+    // SPA Auto-Redirect: catches any direct URL on Vercel/hosts and redirects to HashRouter
+    var path = window.location.pathname;
+    var search = window.location.search || '';
+    var hash = window.location.hash || '';
+
+    // If attempting to access admin directly
+    if (path === '/admin' || path === '/admin/' || path === '/panel' || path === '/panel/') {
+      window.location.replace('/admin.html');
+    } else {
+      // Redirect clean path to hash route
+      var target = '/#' + (path === '/' ? '' : path) + search + hash;
+      window.location.replace(target);
+    }
+  </script>
+</head>
+<body style="font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; background: #f8fafc; color: #334155;">
+  <p>অনুগ্রহ করে অপেক্ষা করুন, পেজটি লোড হচ্ছে...</p>
+</body>
+</html>
